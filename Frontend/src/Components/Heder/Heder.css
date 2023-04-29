@@ -1,0 +1,45 @@
+header{
+    display: flex;
+    justify-content: space-around;
+    height: 36px;
+    align-items: center;
+    margin-top: 25px;
+    width: 1200px;
+}
+.appMenu ul{
+    display: flex;
+
+}
+li {
+    text-decoration: none;
+    list-style-type: none;
+}
+.nav{
+    text-decoration: none;
+    margin-right: 30px;
+}
+body{
+    background: url("./img/fon.png")  no-repeat;
+    background-size: 100%;
+
+}
+.btLog{
+    width: 180px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: rgba(0, 125, 215, 0);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: white;
+}
+.btLog:hover{
+    cursor: pointer;
+    border: 1px solid #00FFFF;
+    color: #00FFFF;
+}
