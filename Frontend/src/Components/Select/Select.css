@@ -1,0 +1,27 @@
+.box {
+    width: 700px;
+    border: none;
+    height: 169px;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10.5px);
+    /* Note: backdrop-filter has minimal browser support */
+    outline: none;
+    /*pointer-events: none;*/
+    border-radius: 50px 50px 0px 0px;
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 109px;
+    padding-left: 40px;
+}
+.cont{
+    display: flex;
+    /*flex-direction: column;*/
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+select > option{
+    color: black;
+    border: none;
+}

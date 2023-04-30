@@ -1,0 +1,40 @@
+.Name{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /*max-width: 1000px;*/
+    width: 70%;
+    margin: 100px auto;
+    /*padding-left: 300px;*/
+}
+.Name h3{
+    color: #FBD784;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
+.Name h3::before{
+    display: inline-block;
+    margin-bottom: 2%;
+    margin-right: 25px;
+    content: "";
+    width: 100px;
+    height: 2px;
+    background-color: #FBD784;
+}
+.Name h1,p{
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+.Name p{
+    max-width: 1000px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: left;
+}
+.Name h1{
+    font-size: 88px;
+}

@@ -3,8 +3,9 @@ header{
     justify-content: space-around;
     height: 36px;
     align-items: center;
-    margin-top: 25px;
-    width: 1200px;
+    max-width: 1300px;
+    margin: 25px auto;
+    width: 90%;
 }
 .appMenu ul{
     display: flex;
@@ -19,9 +20,11 @@ li {
     margin-right: 30px;
 }
 body{
-    background: url("./img/fon.png")  no-repeat;
+    /*background: url("./img/fon.png")  no-repeat;*/
+    background: url("./img/Group662.png")  no-repeat;
     background-size: 100%;
-
+    height: 10000px;
+    background-color: #0C1D26;
 }
 .btLog{
     width: 180px;
