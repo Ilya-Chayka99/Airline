@@ -1,11 +1,12 @@
-import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    films:[]
+    films:[],
+    op:false
 
 };
 const airSlice = createSlice({
-    name: 'films',
+    name: 'air',
     initialState,
     reducers: {
         filmLoadComments: (state,action)=>{

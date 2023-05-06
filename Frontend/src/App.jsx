@@ -1,13 +1,13 @@
 import './App.css'
 import Heder from "./Components/Heder/Heder.jsx";
-import MainSelect from "./Components/MainSelect/MainSelect.jsx";
+import Banner from "./Components/Banner/Banner.jsx";
 function App() {
 
   return (
-    <>
+    <div className="str">
         <Heder/>
-        <MainSelect/>
-    </>
+        <Banner/>
+    </div>
   )
 }
 

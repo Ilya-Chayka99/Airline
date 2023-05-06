@@ -1,27 +1,70 @@
-.box {
-    width: 700px;
+.box-city {
+    width: 248px;
     border: none;
-    height: 169px;
+    height: 46px;
     color: white;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10.5px);
-    /* Note: backdrop-filter has minimal browser support */
+    background: rgba(255, 255, 255, 0);
     outline: none;
-    /*pointer-events: none;*/
-    border-radius: 50px 50px 0px 0px;
-    font-size: 80px;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    line-height: 109px;
+    font-size: 16px;
     padding-left: 40px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn{
+    background: rgba(255, 255, 255, 0);
+    border: 0 ;
+}
+.drop-1,.drop-2{
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 10px 30px;
+    border-radius: 16px;
+    position: absolute;
+    color: white;
+}
+.drop-1{
+    top: 65px;
+    left: 30px;
+}
+.drop-2{
+    top: 65px;
+    left: 290px;
 }
 .cont{
+    margin-top: 58px;
     display: flex;
-    /*flex-direction: column;*/
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
-    gap: 40px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px);
+    height: 62px;
+    width: 1126px;
+    border-radius: 16px;
+    gap: 8px;
 }
-select > option{
-    color: black;
-    border: none;
+input[type="date"]{
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    border: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+
 }
+::-webkit-calendar-picker-indicator{
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+}
+
+.p-inputtext{
+    background: #535bf2;
+}
+
