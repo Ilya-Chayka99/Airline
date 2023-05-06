@@ -16,13 +16,13 @@ const Heder = () =>{
                             <NavLink end style={({isActive})=>({color:isActive?'#00FFFF':'white'})} to="/" className="nav">Главная</NavLink>
                         </li>
                         <li>
-                            <NavLink  style={({isActive})=>({color:isActive?'#00FFFF':'white'})} to="/f" className="nav">Про нас</NavLink>
+                            <NavLink  style={({isActive})=>({color:isActive?'#00FFFF':'white'})} to="/f" className="nav">Все рейсы</NavLink>
                         </li>
                         <li>
-                            <NavLink  style={({isActive})=>({color:isActive?'#00FFFF':'white'})} to="/fi" className="nav">Маршруты</NavLink>
+                            <NavLink  style={({isActive})=>({color:isActive?'#00FFFF':'white'})} to="/fi" className="nav">О компании</NavLink>
                         </li>
                         <li>
-                            <button className="btLog">Вход</button>
+                            <p className="btLog">Авторизация</p>
                         </li>
                     </ul>
                 </nav>

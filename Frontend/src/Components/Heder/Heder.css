@@ -3,9 +3,8 @@ header{
     justify-content: space-around;
     height: 36px;
     align-items: center;
-    max-width: 1300px;
     margin: 25px auto;
-    width: 90%;
+    width: 100%;
 }
 .appMenu ul{
     display: flex;
@@ -14,6 +13,8 @@ header{
 li {
     text-decoration: none;
     list-style-type: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
 }
 .nav{
     text-decoration: none;
@@ -21,28 +22,30 @@ li {
 }
 body{
     /*background: url("./img/fon.png")  no-repeat;*/
-    background: url("./img/Group662.png")  no-repeat;
+    background: white url("./img/fon.svg")  no-repeat;
     background-size: 100%;
     height: 10000px;
-    background-color: #0C1D26;
 }
 .btLog{
-    width: 180px;
-    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid white;
-    border-radius: 5px;
     background-color: rgba(0, 125, 215, 0);
-    font-style: normal;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 16px;
     color: white;
 }
 .btLog:hover{
     cursor: pointer;
-    border: 1px solid #00FFFF;
+    border-bottom: 1px solid #00FFFF;
+    /*color: #00FFFF;*/
+}
+.nav:hover{
+    cursor: pointer;
+    border-bottom: 1px solid #00FFFF;
     color: #00FFFF;
+}
+.active{
+    border-bottom: 1px solid #00FFFF;
 }
