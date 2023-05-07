@@ -40,31 +40,59 @@
 }
 .cont{
     margin-top: 58px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    /*justify-content: center;*/
+    justify-content: space-between;
     align-items: center;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(16px);
     height: 62px;
     width: 1126px;
     border-radius: 16px;
-    gap: 8px;
-}
-input[type="date"]{
-    background-color: rgba(255, 255, 255, 0);
-    color: white;
-    border: 0;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
+    padding: 0 16px;
 
-}
-::-webkit-calendar-picker-indicator{
-    cursor: pointer;
-    filter: brightness(0) invert(1);
 }
 
 .p-inputtext{
-    background: #535bf2;
+    background: rgba(255, 255, 255, 0);
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    border: 0;
+}
+.p-inputwrapper-focus{
+    border: 0;
+}
+.p-button{
+    background-color:rgba(255, 255, 255, 0) ;
+    border: 0;
+}
+.p-button:enabled:hover{
+    background-color:rgba(255, 255, 255, 0) ;
+
+}
+.p-button:enabled:active{
+    background-color:rgba(255, 255, 255, 0) ;
+}
+.p-calendar{
+    width: 200px;
+}
+.p-float-label label{
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-left: 40px;
+}
+.b{
+    background-color: white;
+    width: 173px;
+    color: #2659C3;
+}
+.b:enabled:hover{
+    background-color:rgba(255, 255, 255, 0.5) ;
+    color: #2659C3;
 }
 

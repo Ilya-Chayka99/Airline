@@ -1,19 +1,41 @@
-import './Select.css'
-import React from 'react'
+import React, {useRef} from 'react'
 import {useEffect, useState} from "react";
 import ky from 'ky'
 import {Listbox, Transition} from "@headlessui/react";
 import { FiChevronsDown } from "react-icons/fi";
-import { Calendar } from 'primereact/calendar';
+import { Calendar} from 'primereact/calendar';
+import { Button } from 'primereact/button';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import './Select.css'
+import {Link, useNavigate} from "react-router-dom";
 
 
 const Select = () =>{
     const [city,setCity] = useState([])
     const [selectOutput,setSelectOutput] = useState({name:"Город вылета"})
     const [selectInput,setSelectInput] = useState({name:"Город прилета"})
-    const [date, setDate] = useState(null);
+    const [dateOutput, setDateOutput] = useState(null);
+    const [dateInput, setDateInput] = useState(null);
+    const aRef = useRef()
+    const bRef = useRef()
+    let navigate = useNavigate();
+    useEffect(()=>{
+        console.log(selectOutput)
+        console.log(selectInput)
+        console.log(dateOutput)
+        console.log(dateInput)
+    },[selectInput,selectOutput,dateInput,dateOutput])
+    useEffect(()=>{
+        if(dateOutput)
+            aRef.current.innerHTML=''
+        else aRef.current.innerHTML='Дата вылета'
+    },[dateOutput])
+    useEffect(()=>{
+        if(dateInput)
+            bRef.current.innerHTML=''
+        else bRef.current.innerHTML='Дата возврата'
+    },[dateInput])
     useEffect( ()=>{
         async function fetchData() {
             setCity(await ky('zzz', {prefixUrl: 'http://localhost:8080'}).json())
@@ -22,7 +44,9 @@ const Select = () =>{
     },[])
 
     const sub = (event) => {
+        event.preventDefault()
         console.log(event)
+        navigate("/f")
     }
 
 
@@ -77,11 +101,21 @@ const Select = () =>{
                     </Listbox.Options>
                 </Transition>
             </Listbox>
-            <input type="date" onChange={(event)=>console.log(event.target.value)} title="Дата вылета"/>
             <span className="p-float-label">
-                <Calendar inputId="birth_date" value={date} onChange={(e) => console.log(e.value)} />
-                <label htmlFor="birth_date">Birth Date</label>
+                <Calendar inputId="birth_date" value={dateOutput}
+                          onChange={(e) => setDateOutput(e.value)}
+                          minDate={new Date()}
+                          dateFormat="dd/mm/yy" showIcon iconPos="left" showButtonBar />
+                <label htmlFor="birth_date" className="l" ref={aRef}>Дата вылета</label>
             </span>
+            <span className="p-float-label">
+                <Calendar inputId="birth_date" value={dateInput}
+                          onChange={(e) => setDateInput(e.value)}
+                          minDate={new Date()}
+                          dateFormat="dd/mm/yy" showIcon showButtonBar  iconPos="left" />
+                <label htmlFor="birth_date" className="l" ref={bRef}>Дата Возврата</label>
+            </span>
+            <Button label="Поиск" rounded className="b" />
         </form>
     )
 
