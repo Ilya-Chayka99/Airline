@@ -1,12 +1,15 @@
 import './App.css'
 import Heder from "./Components/Heder/Heder.jsx";
-import Banner from "./Components/Banner/Banner.jsx";
+import {Route, Routes} from "react-router";
+import Main from "./Components/Page/Main.jsx";
 function App() {
 
   return (
     <div className="str">
         <Heder/>
-        <Banner/>
+        <Routes>
+            <Route path='/' element={<Main/>}/>
+        </Routes>
     </div>
   )
 }
