@@ -24,7 +24,7 @@ body{
     /*background: url("./img/fon.png")  no-repeat;*/
     background: white url("./img/fon.svg")  no-repeat;
     background-size: 100%;
-    height: 10000px;
+
 }
 .btLog{
     display: flex;
@@ -35,6 +35,7 @@ body{
     font-weight: 700;
     font-size: 16px;
     color: white;
+    border-bottom: 1px solid rgba(255,255,255,0);
 }
 .btLog:hover{
     cursor: pointer;

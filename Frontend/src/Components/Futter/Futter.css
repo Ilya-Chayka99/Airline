@@ -1,0 +1,11 @@
+.futter{
+    background-color: #141414;
+
+    width: 100%;
+    height: 288px;
+    background-image: url("./img/mir.png");
+    background-size: 105%;
+    background-repeat: no-repeat;
+    background-position: top center;
+
+}
