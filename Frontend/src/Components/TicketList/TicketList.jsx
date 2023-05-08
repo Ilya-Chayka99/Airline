@@ -56,6 +56,7 @@ const TicketList=()=>{
                  <div className="list">
                      {
                         ticket.filter(x => x.id_v === selectOutput.id && x.id_p === selectInput.id && new Date(x.date_v).getDate() === new Date(dateOutput)?.getDate())
+                            .sort((x,y)=>new Date(x.time_v).getHours()-new Date(y.time_v).getHours())
                             .map(x => (
                                 <>
                                     <Card title={x.aviacompani}

@@ -11,6 +11,7 @@ import './Select.css'
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {selectLoadForm} from "../slice/airSlise.jsx";
+import {Dropdown} from "primereact/dropdown";
 
 
 const Select = () =>{
@@ -52,59 +53,35 @@ const Select = () =>{
         navigate("/selectticket")
     }
 
-
+    const selectedCountryTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-items-center">
+                    <div>{option.name}</div>
+                </div>
+            );
+        }
+        return <span>{props.placeholder}</span>;
+    };
+    const countryOptionTemplate = (option) => {
+        return (
+            <div className="flex align-items-center">
+                <div>{option.name}</div>
+            </div>
+        );
+    };
     return(
         <form className="cont" onSubmit={sub}>
-            <Listbox value={selectOutput || ""} onChange={setSelectOutput} name="assignee">
-                <Listbox.Button className="box-city">
-                    {selectOutput.name}
-                    <FiChevronsDown color="white"/>
-                </Listbox.Button>
-                <Transition
-                    as={React.Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <Listbox.Options className="drop-1" >
-                        {
-                           city.length?city.map((city)=>(
-                            <Listbox.Option value={city} key={city.id}>
-                                <>
-                                    <span>
-                                        {city.name}
-                                    </span>
-                                </>
-                            </Listbox.Option>
-                        )):<span>Городов не найдено</span>}
-                    </Listbox.Options>
-                </Transition>
-            </Listbox>
-
-            <Listbox value={selectInput || ""} onChange={setSelectInput} name="assignee">
-                <Listbox.Button className="box-city">
-                    {selectInput.name}
-                    <FiChevronsDown color="white"/>
-                </Listbox.Button>
-                <Transition
-                    as={React.Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <Listbox.Options className="drop-2" >
-                        {city.length?city.map((city)=>(
-                            <Listbox.Option value={city} key={city.id}>
-                                <>
-                                <span>
-                                    {city.name}
-                                </span>
-                                </>
-                            </Listbox.Option>
-                        )):<span>Городов не найдено</span>}
-                    </Listbox.Options>
-                </Transition>
-            </Listbox>
+            <Dropdown value={selectOutput} onChange={(e) => setSelectOutput(e.value)}
+                      options={city} optionLabel="name"
+                      placeholder="Город вылета"
+                      filter valueTemplate={selectedCountryTemplate}
+                      itemTemplate={countryOptionTemplate} className="w-full md:w-14rem" />
+            <Dropdown value={selectInput} onChange={(e) => setSelectInput(e.value)}
+                      options={city} optionLabel="name"
+                      placeholder="Город Прилета"
+                      filter valueTemplate={selectedCountryTemplate}
+                      itemTemplate={countryOptionTemplate} className="w-full md:w-14rem" />
             <span className="p-float-label">
                 <Calendar inputId="birth_date" value={dateOutput}
                           onChange={(e) => setDateOutput(e.value)}

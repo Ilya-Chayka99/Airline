@@ -1,45 +1,4 @@
-.box-city {
-    width: 248px;
-    border: none;
-    height: 46px;
-    color: white;
-    background: rgba(255, 255, 255, 0);
-    outline: none;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    padding-left: 40px;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-.btn{
-    background: rgba(255, 255, 255, 0);
-    border: 0 ;
-}
-.drop-1,.drop-2{
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(16px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    padding: 10px 30px;
-    border-radius: 16px;
-    position: absolute;
-    color: white;
-    cursor: pointer;
-}
-.drop-1{
-    top: 65px;
-    left: 30px;
-}
-.drop-2{
-    top: 65px;
-    left: 290px;
-}
+
 .cont{
     margin-top: 58px;
     margin-left: auto;
@@ -63,6 +22,9 @@
     font-weight: 700;
     font-size: 16px;
     border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .p-inputwrapper-focus{
     border: 0;
@@ -98,3 +60,27 @@
     color: #2659C3;
 }
 
+
+.p-dropdown{
+    background-color:rgba(255, 255, 255, 0) ;
+    width: 248px;
+    border: none;
+    height: 46px;
+}
+.p-inputtext span{
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+
+}
+.p-icon{
+    color: white;
+}
+.p-dropdown-panel .p-dropdown-header{
+    background: rgba(255, 255, 255, 0);
+
+
+}
+.p-dropdown-panel{
+    background: rgba(255, 255, 255,0.4);
+    backdrop-filter: blur(16px);
+}
