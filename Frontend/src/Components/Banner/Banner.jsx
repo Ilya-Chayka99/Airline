@@ -6,7 +6,7 @@ const Banner = () =>{
 
     return(
         <div className="banner">
-           <div className="Name">
+           <div className="Namew">
                <h3>АВИАКОМПАНИЯ</h3>
                <h1>Новый Горизонт</h1>
                <p>ОТКРЫВАЕМ ПЕРЕД ВАМИ МИР ПОЛЕТОВ,

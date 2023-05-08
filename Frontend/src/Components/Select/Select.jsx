@@ -8,18 +8,21 @@ import { Button } from 'primereact/button';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import './Select.css'
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {selectLoadForm} from "../slice/airSlise.jsx";
 
 
 const Select = () =>{
+    const dispatch = useDispatch();
     const [city,setCity] = useState([])
-    const [selectOutput,setSelectOutput] = useState({name:"Город вылета"})
-    const [selectInput,setSelectInput] = useState({name:"Город прилета"})
-    const [dateOutput, setDateOutput] = useState(null);
-    const [dateInput, setDateInput] = useState(null);
+    const [selectOutput,setSelectOutput] = useState(useSelector(state => state.air.selectOutput))
+    const [selectInput,setSelectInput] = useState(useSelector(state => state.air.selectInput))
+    const [dateOutput, setDateOutput] = useState(useSelector(state => state.air.dateOutput));
+    const [dateInput, setDateInput] = useState(useSelector(state => state.air.dateInput));
     const aRef = useRef()
     const bRef = useRef()
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     useEffect(()=>{
         console.log(selectOutput)
         console.log(selectInput)
@@ -38,15 +41,15 @@ const Select = () =>{
     },[dateInput])
     useEffect( ()=>{
         async function fetchData() {
-            setCity(await ky('zzz', {prefixUrl: 'http://localhost:8080'}).json())
+            setCity(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json())
         }
         fetchData().then(r =>  r)
     },[])
 
     const sub = (event) => {
         event.preventDefault()
-        console.log(event)
-        navigate("/f")
+        dispatch(selectLoadForm({selectInput, selectOutput, dateInput, dateOutput}));
+        navigate("/selectticket")
     }
 
 
@@ -64,7 +67,8 @@ const Select = () =>{
                     leaveTo="opacity-0"
                 >
                     <Listbox.Options className="drop-1" >
-                        {city.map((city)=>(
+                        {
+                           city.length?city.map((city)=>(
                             <Listbox.Option value={city} key={city.id}>
                                 <>
                                     <span>
@@ -72,7 +76,7 @@ const Select = () =>{
                                     </span>
                                 </>
                             </Listbox.Option>
-                        ))}
+                        )):<span>Городов не найдено</span>}
                     </Listbox.Options>
                 </Transition>
             </Listbox>
@@ -89,7 +93,7 @@ const Select = () =>{
                     leaveTo="opacity-0"
                 >
                     <Listbox.Options className="drop-2" >
-                        {city.map((city)=>(
+                        {city.length?city.map((city)=>(
                             <Listbox.Option value={city} key={city.id}>
                                 <>
                                 <span>
@@ -97,7 +101,7 @@ const Select = () =>{
                                 </span>
                                 </>
                             </Listbox.Option>
-                        ))}
+                        )):<span>Городов не найдено</span>}
                     </Listbox.Options>
                 </Transition>
             </Listbox>

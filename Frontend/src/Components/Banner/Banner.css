@@ -1,4 +1,4 @@
-.Name{
+.Namew{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -7,7 +7,7 @@
     margin: 5vw 0 0 120px;
 }
 
-.Name h3{
+.Namew h3{
     color: #FBD784;
     padding: 0;
     margin: 0;
@@ -17,7 +17,7 @@
     letter-spacing: 6px;
     text-transform: uppercase;
 }
-.Name h3::before{
+.Namew h3::before{
     display: inline-block;
     margin-bottom: 2%;
     margin-right: 25px;
@@ -26,7 +26,7 @@
     height: 2px;
     background-color: #FBD784;
 }
-.Name h1,p{
+.Namew h1,p{
     color: white;
     padding: 0;
     margin: 0;
@@ -34,7 +34,7 @@
     font-weight: 700;
     font-size: 24px;
 }
-.Name p{
+.Namew p{
     max-width: 1000px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
@@ -43,6 +43,6 @@
     color: rgba(255, 255, 255, 0.5);
     text-align: left;
 }
-.Name h1{
+.Namew h1{
     font-size: 64px;
 }

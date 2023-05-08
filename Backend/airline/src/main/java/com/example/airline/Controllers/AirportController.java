@@ -2,9 +2,8 @@ package com.example.airline.Controllers;
 
 
 import com.example.airline.Entity.Airport;
-import com.example.airline.Entity.Department;
 import com.example.airline.Repository.AirportRepo;
-import com.example.airline.Repository.DepartmentRepo;
+import com.example.airline.Service.AirportService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,13 +14,13 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class DepartmentController {
+public class AirportController {
 
-    private AirportRepo airportRepo;
+    private AirportService airportService;
 
     @CrossOrigin
-    @GetMapping(path = "zzz")
+    @GetMapping(path = "Airport")
     public ResponseEntity<List<Airport>> list(){
-        return ResponseEntity.ok().body(airportRepo.findAll());
+        return ResponseEntity.ok().body(airportService.getAll());
     }
 }

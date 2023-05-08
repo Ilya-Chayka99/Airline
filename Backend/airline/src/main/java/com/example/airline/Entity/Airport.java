@@ -17,6 +17,7 @@ public class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long perelet;
     private String name;
 }
 

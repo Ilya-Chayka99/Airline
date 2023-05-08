@@ -1,0 +1,82 @@
+.ticketlist{
+    display: flex;
+    margin-top: 227px;
+    color: white;
+    margin-left: 120px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.list{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.p-card{
+    width: 342px;
+    height: 608px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 16px rgba(158, 158, 158, 0.8);
+    border-radius: 16px;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    margin-bottom: 30px;
+    cursor: pointer;
+    margin-right: 30px;
+}
+.sp{
+    color: rgba(0,0,0,0.5);
+}
+.p-card-content p{
+    color: rgba(0,0,0,0.5);
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    text-align: left;
+}
+.p-card-content {
+  width: 100%;
+}
+.p-card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+ .p-card-header img {
+    width: 90%;
+     margin-top: 5%;
+     border-radius: 16px;
+}
+p-card-subtitle{
+    font-size:16px ;
+}
+.stat{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+}
+.stat span{
+    font-size: 12px;
+}
+.info{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+.Name h1, p{
+    color: black;
+    text-align: center;
+}
+.p-card-footer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
