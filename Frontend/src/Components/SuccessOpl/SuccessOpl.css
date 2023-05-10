@@ -1,0 +1,30 @@
+.success{
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10.5px);
+    /* Note: backdrop-filter has minimal browser support */
+    margin-top: 40px;
+    border-radius: 32px;
+
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.infoTicketOpl{
+    width: 538px;
+    height: 565px;
+    background-image: url("./img/SuccessOpl.png");
+    background-size: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+}
+.pos{
+    position: absolute;
+    bottom: 100px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}

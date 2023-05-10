@@ -22,8 +22,8 @@ li {
 }
 body{
     /*background: url("./img/fon.png")  no-repeat;*/
-    background: white url("./img/fon.svg")  no-repeat;
-    background-size: 100%;
+    background: white url("./img/fon.svg") center top  no-repeat;
+
 
 }
 .btLog{

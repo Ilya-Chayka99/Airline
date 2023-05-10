@@ -1,11 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
-    films:[],
     selectOutput:{id:0, name:"Город вылета"},
     selectInput:{id:0,name:"Город прилета"},
     dateOutput:null,
-    dateInput:null
+    dateInput:null,
+    byTicket:null,
+    formByInfo:null
 
 };
 const airSlice = createSlice({
@@ -18,6 +19,12 @@ const airSlice = createSlice({
             state.dateInput=action.payload.dateInput;
             state.dateOutput=action.payload.dateOutput;
         },
+        selectByTicket:(state,action)=>{
+            state.byTicket=action.payload;
+        },
+        selectFormByInfo:(state,action)=>{
+            state.formByInfo=action.payload;
+        }
 
 
 
@@ -29,5 +36,7 @@ const airSlice = createSlice({
 
 
     export const {
-        selectLoadForm
+        selectLoadForm,
+        selectByTicket,
+        selectFormByInfo
     } = actions;
