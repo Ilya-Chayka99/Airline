@@ -50,3 +50,6 @@ body{
 .active{
     border-bottom: 1px solid #00FFFF;
 }
+.p-dialog .p-dialog-header .p-dialog-header-icon{
+    background-color: #00FFFF;
+}

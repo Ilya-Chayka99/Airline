@@ -14,7 +14,7 @@ import {selectLoadForm} from "../slice/airSlise.jsx";
 import {Dropdown} from "primereact/dropdown";
 
 
-const Select = () =>{
+const Select = ({reg,setDate,setG_p,setG_v}) =>{
     const dispatch = useDispatch();
     const [city,setCity] = useState([])
     const [selectOutput,setSelectOutput] = useState(useSelector(state => state.air.selectOutput))
@@ -25,32 +25,43 @@ const Select = () =>{
     const bRef = useRef()
     const navigate = useNavigate();
     useEffect(()=>{
-        console.log(selectOutput)
-        console.log(selectInput)
-        console.log(dateOutput)
-        console.log(dateInput)
-    },[selectInput,selectOutput,dateInput,dateOutput])
-    useEffect(()=>{
         if(dateOutput)
             aRef.current.innerHTML=''
         else aRef.current.innerHTML='Дата вылета'
     },[dateOutput])
-    useEffect(()=>{
-        if(dateInput)
-            bRef.current.innerHTML=''
-        else bRef.current.innerHTML='Дата возврата'
-    },[dateInput])
+
+    // useEffect(()=>{
+    //     if(dateInput)
+    //         bRef.current.innerHTML=''
+    //     else bRef.current.innerHTML='Дата возврата'
+    // },[dateInput])
     useEffect( ()=>{
         async function fetchData() {
             setCity(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json())
         }
         fetchData().then(r =>  r)
+        if(reg){
+            setSelectOutput(null)
+            setSelectInput(null)
+            setDateOutput(null)
+        }
     },[])
 
     const sub = (event) => {
         event.preventDefault()
-        dispatch(selectLoadForm({selectInput, selectOutput, dateInput, dateOutput}));
-        navigate("/selectticket")
+        if(reg){
+            setDate(dateOutput)
+            setG_v(selectOutput)
+            setG_p(selectInput)
+        }
+        else {
+            if((selectOutput.id!==0) && (selectInput.id!==0) && dateOutput){
+                dispatch(selectLoadForm({selectInput, selectOutput, dateInput, dateOutput}));
+                navigate("/selectticket")
+            }
+
+        }
+
     }
 
     const selectedCountryTemplate = (option, props) => {
@@ -89,13 +100,13 @@ const Select = () =>{
                           dateFormat="dd/mm/yy" showIcon iconPos="left" showButtonBar />
                 <label htmlFor="birth_date" className="l" ref={aRef}>Дата вылета</label>
             </span>
-            <span className="p-float-label">
-                <Calendar inputId="birth_date" value={dateInput}
-                          onChange={(e) => setDateInput(e.value)}
-                          minDate={new Date()}
-                          dateFormat="dd/mm/yy" showIcon showButtonBar  iconPos="left" />
-                <label htmlFor="birth_date" className="l" ref={bRef}>Дата Возврата</label>
-            </span>
+            {/*<span className="p-float-label">*/}
+            {/*    <Calendar inputId="birth_date" value={dateInput}*/}
+            {/*              onChange={(e) => setDateInput(e.value)}*/}
+            {/*              minDate={new Date()}*/}
+            {/*              dateFormat="dd/mm/yy" showIcon showButtonBar  iconPos="left" />*/}
+            {/*    <label htmlFor="birth_date" className="l" ref={bRef}>Дата Возврата</label>*/}
+            {/*</span>*/}
             <Button label="Поиск" rounded className="b" />
         </form>
     )

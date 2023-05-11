@@ -1,14 +1,10 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import ky from "ky";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import './TicketList.css'
-import {BsAirplane, BsClock, BsFillPersonVcardFill} from 'react-icons/bs'
-import cardImg from './img/img.png'
 import {useNavigate} from "react-router-dom";
-import { ProgressSpinner } from 'primereact/progressspinner';
-import {selectByTicket} from "../slice/airSlise.jsx";
 import CardT from "../Card/Card.jsx";
 import {v4 as uuv4} from "uuid";
 

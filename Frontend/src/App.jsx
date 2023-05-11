@@ -8,8 +8,9 @@ import SelectTicket from "./Components/Page/SelectTicket.jsx";
 import ByTicket from "./Components/Page/ByTicket.jsx";
 import Oplata from "./Components/Page/Oplata.jsx";
 import SuccessOplP from "./Components/Page/SuccessOplP.jsx";
+import RegisterList from "./Components/Page/RegisterList.jsx";
+import RegisterR from "./Components/RegisterR/RegisterR.jsx";
 function App() {
-
   return (
       <>
           <div className="str">
@@ -20,6 +21,8 @@ function App() {
                   <Route path='/byticket' element={<ByTicket/>}/>
                   <Route path='/methodopl' element={<Oplata/>}/>
                   <Route path='/success' element={<SuccessOplP/>}/>
+                  <Route path='/register-list' element={<RegisterList/>}/>
+                  <Route path='/register-form' element={<RegisterR/>}/>
               </Routes>
           </div>
           <Routes>

@@ -1,9 +1,9 @@
 import MethodOpl from "../MethodOpl/MethodOpl.jsx";
 
 
-const Oplata = ()=>{
+const Oplata = () => {
 
-    return(
+    return (
         <MethodOpl/>
     )
 }

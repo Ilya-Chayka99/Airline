@@ -30,6 +30,7 @@ public class Ticket {
     private String phone;
     private Long serpass;
     private Long nompass;
+    private String serial;
 
 
 }
