@@ -1,15 +1,17 @@
-.form-registor-ticket{
+.form-registor-ticket {
 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.form-r{
+
+.form-r {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.form-btn{
+
+.form-btn {
     width: 179px;
     height: 48px;
     background: #605DEC;
@@ -19,17 +21,108 @@
     font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 }
-.form-info-header p{
+
+.form-info-header p {
     color: white;
     font-family: 'Open Sans', sans-serif;
     display: flex;
     align-items: center;
 }
-.serch{
+
+.serch {
     display: flex;
     align-items: center;
     gap: 40px;
     color: white;
     font-family: 'Open Sans', sans-serif;
     margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.spk {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.info-ticket-reg {
+    display: flex;
+    gap: 30px;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.info-ticket-reg span {
+    display: flex;
+    flex-direction: column;
+}
+
+.airplane .p-dialog-header {
+    background: rgba(255, 255, 255, 0);
+}
+
+.airplane .p-dialog-content {
+    background: rgba(255, 255, 255, 0);
+}
+
+.air-fon {
+    background: url("./img/Plane(seat-selection).png") center top;
+    background-repeat: no-repeat;
+    width: 100%;
+    /*height: 100%;*/
+}
+
+.btns-air-seat {
+    width: 192px;
+    height: 1632px;
+    background: rgba(100, 100, 255, 0);
+    margin: 518px  auto 518px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+}
+.size-btn-bzn{
+    width: 30px;
+    height: 40px;
+}
+.seatY{
+
+    background: linear-gradient(180deg, #605DEC 0%, #2A26D9 100%);
+    border-radius: 4px;
+    color:rgba(100, 100, 255, 0);
+    border: none;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.seatN{
+    background: #E9E8FC;
+    border-radius: 4px;
+    color:rgba(100, 100, 255, 0);
+    border: none;
+    margin-bottom: 5px;
+}
+.seatOK{
+    background: linear-gradient(180deg, #5CD6C0 0%, #22C3A6 100%);
+    border-radius: 4px;
+    color:rgba(100, 100, 255, 0);
+    border: none;
+    margin-bottom: 5px;
+}
+.onek{
+    display: flex;
+    justify-content: space-between;
+}
+.two-class{
+    margin-top: 40px;
+}
+.two-class-v{
+    margin-top: 15px;
+}
+.tou{
+    display: flex;
+    gap: 10px;
 }

@@ -1,5 +1,6 @@
 package com.example.airline.Controllers;
 
+import com.example.airline.Entity.InfoRegisterTicket;
 import com.example.airline.Entity.Ticket;
 import com.example.airline.Service.TicketService;
 import lombok.AllArgsConstructor;
@@ -45,5 +46,14 @@ public class TicketController  {
         if(ticketService.delete(t))
             return ResponseEntity.ok().body("{\"massage\":\"OK\"}");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ошибка удаления билета");
+    }
+    @CrossOrigin
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "ticket/search")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> create(@RequestBody InfoRegisterTicket t){
+        Ticket ticket = ticketService.search(t);
+        if(ticket!=null)
+            return ResponseEntity.ok().body("{\"massage\":\"OK\"}");
+        return ResponseEntity.ok().body("Ошибка создания Билета");
     }
 }

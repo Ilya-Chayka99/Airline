@@ -35,7 +35,8 @@ const CardT = (props) => {
         let humanReadable = {};
         humanReadable.hours = Math.floor(24 * day - hDiff);
         humanReadable.minutes = 60 - (minDiff - 60 * Math.floor(hDiff));
-        return `${humanReadable.hours}:${humanReadable.minutes}`
+        return `${humanReadable.hours < 10 ? "0" + humanReadable.hours : humanReadable.hours}:
+        ${humanReadable.minutes < 10 ? "0" + humanReadable.minutes : humanReadable.minutes}`
     }
     const onByClick = (x) => {
         if (!props.nav) {

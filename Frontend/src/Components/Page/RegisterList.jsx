@@ -21,6 +21,7 @@ const RegisterList = () => {
         async function fetchData() {
             f(await ky('Flights', {prefixUrl: 'http://localhost:8080'}).json())
         }
+
         fetchData().then(r => r)
 
         async function fetchData1() {

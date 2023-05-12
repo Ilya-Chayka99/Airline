@@ -31,6 +31,7 @@ public class Ticket {
     private Long serpass;
     private Long nompass;
     private String serial;
+    private String email;
 
 
 }

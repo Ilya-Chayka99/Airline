@@ -39,7 +39,7 @@ const Heder = () => {
                                     <span className="p-float-label">
                                         <InputText id="username" value={valueN}
                                                    onChange={(e) => setValueN(e.target.value)}/>
-                                        <label htmlFor="username" style={{color: "#829AB1", left: "-30px"}}>Имя Пользователя</label>
+                                        <label htmlFor="username" style={{color: "#829AB1", left: "-30px"}}>Телефон</label>
                                     </span>
                                     <span className="p-float-label">
                                         <Password inputId="password" value={valueP}

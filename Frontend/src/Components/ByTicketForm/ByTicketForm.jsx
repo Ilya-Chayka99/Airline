@@ -56,7 +56,8 @@ const ByTicketForm=()=>{
                         "datero":dateRo,
                         "phone":tel,
                         "serpass":serPas,
-                        "nompass":nomPas
+                        "nompass":nomPas,
+                        "email":email
                     }
             }).then(r=>navigate('/methodopl')).catch(err=>console.log(err))
         }
