@@ -21,6 +21,15 @@
     font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 }
+.form-btn-close{
+    width: 179px;
+    height: 48px;
+    background: #a09ee8;
+    border-radius: 4px;
+    border: none;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
 
 .form-info-header p {
     color: white;

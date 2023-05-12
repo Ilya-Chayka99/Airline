@@ -10,7 +10,9 @@ import com.example.airline.Repository.TicketRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -68,8 +70,22 @@ public class TicketService {
     }
 
     public Ticket search(InfoRegisterTicket t) {
-        List<Ticket> tickets = ticketRepo.findById_flightAndSerialAndSerpassAndNompass(t.getId_flight(), t.getBil(), t.getSerPas(), t.getNomPas());
+        List<Ticket> tickets = ticketRepo.findBySerialAndSerpassAndNompass(t.getBil(), t.getSerPas(), t.getNomPas());
+        tickets= tickets.stream()
+                        .filter(x-> Objects.equals(x.getId_flight(), t.getId_flight()) && x.getStatus()==3)
+                                .toList();
         System.out.println(tickets);
-        return null;
+        return tickets.size()>0?tickets.get(0):null;
+    }
+    public List<String> seat(Long id){
+        List<Ticket> tickets = ticketRepo.findAll();
+        List<String> str = new ArrayList<>();
+        for(Ticket t: tickets){
+            if(Objects.equals(t.getId_flight(), id)){
+                if(t.getSeat_number()!=null)
+                    str.add(t.getSeat_number());
+            }
+        }
+        return str;
     }
 }

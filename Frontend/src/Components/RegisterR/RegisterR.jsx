@@ -10,10 +10,11 @@ import {Dialog} from "primereact/dialog";
 
 const RegisterR = () => {
     const [ticket, setTicket] = useState(useSelector(state => state.air.byTicket))
-    const [tickets, setTickets] = useState([])
+    const [ticketValid, setTicketValid] = useState(null)
     const [bil, setBil] = useState('');
     const navigate = useNavigate();
     const [air, setAir] = useState([]);
+    const [setClose, setSetClose] = useState([]);
     const [serPas, setSerPas] = useState('');
     const [nomPas, setNomPas] = useState('');
     const [seat, setSeat] = useState('');
@@ -44,27 +45,36 @@ const RegisterR = () => {
         event.preventDefault()
 
         async function fetchData() {
-            setTickets(await ky.post('ticket/search', {prefixUrl: 'http://localhost:8080'}).json())
+            setTicketValid(await ky.post('ticket/search', {prefixUrl: 'http://localhost:8080',json:{
+                "id_flight":ticket.id,
+                "bil":bil,
+                "serPas":serPas,
+                "nomPas":nomPas
+                }}).json())
         }
 
         fetchData().then(r => r)
+        async function fetchData1() {
+            const searchParams = new URLSearchParams();
+            searchParams.set('id',ticket.id)
+            setSetClose(await ky.post(`ticket/seat`, {prefixUrl: 'http://localhost:8080',body:searchParams}).json())
+        }
+
+        fetchData1().then(r => r)
     }
     useEffect(() => {
-        if (tickets.filter(t => ((t.serial === bil) && (t.serpass == serPas) && (t.nompass == nomPas) && (ticket.id === t.id_flight) && t.status === 3)).length > 0) {
-            setInfo(tickets.filter(t => (t.serial === bil && t.serpass == serPas && t.nompass == nomPas && ticket.id === t.id_flight && t.status === 3)))
-        } else
-            setInfo([])
+        if(ticketValid!=null)
+            setInfo(ticketValid)
+        else
+            setInfo(null)
 
-
-    }, [tickets])
+    }, [ticketValid])
     const clickBtn = (id) => {
         setSeat(id)
-        // console.log(id)
-
     }
     const veriv = (id) => {
-        return tickets.filter(t => ((t.seat_number === id) && (ticket.id === t.id_flight))).length
-
+        if(setClose.includes(id)) return 1;
+        return 0;
     }
 
     return (
@@ -95,19 +105,19 @@ const RegisterR = () => {
                         />
                         <button className="form-btn" type="submit" onClick={cub}>Найти</button>
                     </div>
-                    {info.length > 0 && <div className="info-ticket-reg">
-                        <span><span>Имя:</span> {info[0].name}</span>
-                        <span><span>Фамилия:</span> {info[0].sename}</span>
-                        <span><span>Отчество:</span> {info[0].lastname}</span>
-                        <span><span>Дата рождения:</span> {new Date(info[0].datero).getDate() + "-" +
-                            (new Date(info[0].datero).getMonth() + 1) + "-" + new Date(info[0].datero).getFullYear()}</span>
-                        <span><span>Телефон:</span> {info[0].phone}</span>
-                        <span><span>Дата покупки:</span> {new Date(info[0].date_registration).getDate() + " " +
-                            new Date(info[0].date_registration)?.toLocaleString('default', {month: 'long'}) + " " +
-                            timeFormat(info[0].date_registration)}</span>
+                    {info!=='' && info!==null && <div className="info-ticket-reg">
+                        <span><span>Имя:</span> {info.name}</span>
+                        <span><span>Фамилия:</span> {info.sename}</span>
+                        <span><span>Отчество:</span> {info.lastname}</span>
+                        <span><span>Дата рождения:</span> {new Date(info.datero).getDate() + "-" +
+                            (new Date(info.datero).getMonth() + 1) + "-" + new Date(info.datero).getFullYear()}</span>
+                        <span><span>Телефон:</span> {info.phone}</span>
+                        <span><span>Дата покупки:</span> {new Date(info.date_registration).getDate() + " " +
+                            new Date(info.date_registration)?.toLocaleString('default', {month: 'long'}) + " " +
+                            timeFormat(info.date_registration)}</span>
                     </div>}
-                    <div className="seat" onClick={() => setVisible(true)}>
-                        <button className="form-btn" style={{
+                    <div className={"seat"} onClick={() => setVisible(ticketValid !== '' && ticketValid !== null)}>
+                        <button className={ticketValid!=='' && ticketValid !== null?"form-btn":"form-btn-close"} style={{
                             marginBottom: "40px",
                             marginRight: "20px"
                         }}>{seat === '' ? "Выбрать место" : seat}</button>

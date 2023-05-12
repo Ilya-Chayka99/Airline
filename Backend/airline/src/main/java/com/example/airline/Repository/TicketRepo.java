@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface TicketRepo extends JpaRepository<Ticket,Long> {
     public List<Ticket> findByPhone(String phone);
-    public List<Ticket> findById_flightAndSerialAndSerpassAndNompass(Long id_flight,String bil,String serPas,String nomPas);
+    public List<Ticket> findBySerialAndSerpassAndNompass(String bil,Long serPas,Long nomPas);
 }

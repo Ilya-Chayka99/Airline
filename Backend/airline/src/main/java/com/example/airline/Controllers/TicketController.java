@@ -49,11 +49,22 @@ public class TicketController  {
     }
     @CrossOrigin
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "ticket/search")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> create(@RequestBody InfoRegisterTicket t){
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Ticket> search(@RequestBody InfoRegisterTicket t){
         Ticket ticket = ticketService.search(t);
-        if(ticket!=null)
-            return ResponseEntity.ok().body("{\"massage\":\"OK\"}");
-        return ResponseEntity.ok().body("Ошибка создания Билета");
+        if(ticket!=null){
+            ticket.setSerpass(null);
+            ticket.setNompass(null);
+            return ResponseEntity.ok().body(ticket);
+        }
+
+        return ResponseEntity.ok().body(null);
     }
+    @CrossOrigin
+    @PostMapping(path = "ticket/seat")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<String>> list(@RequestParam("id")Long id){
+        return ResponseEntity.ok().body(ticketService.seat(id));
+    }
+
 }
