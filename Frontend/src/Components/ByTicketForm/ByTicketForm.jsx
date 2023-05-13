@@ -10,9 +10,9 @@ import {selectFormByInfo} from "../slice/airSlise.jsx";
 import ky from "ky";
 
 
-const ByTicketForm=()=>{
+const ByTicketForm = () => {
     const dispatch = useDispatch();
-    const [ticket,setTicket] =useState(useSelector(state => state.air.byTicket))
+    const [ticket, setTicket] = useState(useSelector(state => state.air.byTicket))
     const [lastName, setLastName] = useState('');
     const [name, setName] = useState('');
     const [serName, setSerName] = useState('');
@@ -23,50 +23,55 @@ const ByTicketForm=()=>{
     const [nomPas, setNomPas] = useState('');
     const navigate = useNavigate();
     const form = useSelector(state => state.air.formByInfo)
-    useEffect(()=>{
-        if(ticket==null) navigate("/")
-        if(form){
+    useEffect(() => {
+        if (ticket == null) navigate("/")
+        if (form) {
             async function fetchData() {
-                await ky.delete('ticket/delete', {prefixUrl: 'http://localhost:8080',json:
+                await ky.delete('ticket/delete', {
+                    prefixUrl: 'http://localhost:8080', json:
                         {
-                            "phone":form.tel,
+                            "phone": form.tel,
                         }
-                }).then(r=>r).catch(err=>console.log(err))
+                }).then(r => r).catch(err => console.log(err))
             }
-            fetchData().then(r =>r)
+
+            fetchData().then(r => r)
             dispatch(selectFormByInfo(null))
         }
-    },[])
+    }, [])
 
 
-    const cub = (event)=>{
+    const cub = (event) => {
         event.preventDefault()
-        dispatch(selectFormByInfo({name,serName,lastName,dateRo,email,tel,serPas,nomPas}))
+        dispatch(selectFormByInfo({name, serName, lastName, dateRo, email, tel, serPas, nomPas}))
+
         async function fetchData() {
-            await ky.post('ticket/create', {prefixUrl: 'http://localhost:8080',json:
+            await ky.post('ticket/create', {
+                prefixUrl: 'http://localhost:8080', json:
                     {
-                        "id":null,
+                        "id": null,
                         "id_client": null,
-                        "id_flight":ticket.id,
-                        "seat_number":null,
-                        "status":1,
-                        "name":name,
-                        "sename":serName,
-                        "lastname":lastName,
-                        "datero":dateRo,
-                        "phone":tel,
-                        "serpass":serPas,
-                        "nompass":nomPas,
-                        "email":email
+                        "id_flight": ticket.id,
+                        "seat_number": null,
+                        "status": 1,
+                        "name": name,
+                        "sename": serName,
+                        "lastname": lastName,
+                        "datero": dateRo,
+                        "phone": tel,
+                        "serpass": serPas,
+                        "nompass": nomPas,
+                        "email": email
                     }
-            }).then(r=>navigate('/methodopl')).catch(err=>console.log(err))
+            }).then(r => navigate('/methodopl')).catch(err => console.log(err))
         }
-        fetchData().then(r =>r)
+
+        fetchData().then(r => r)
 
 
     }
 
-    return(
+    return (
         <>
             {ticket && <section className="formBy">
                 <div className="formInfo">
@@ -103,7 +108,7 @@ const ByTicketForm=()=>{
                                        slotChar="yyyy-mm-dd"
                                        className="imp"
                             />
-                            <InputText  value={email}
+                            <InputText value={email}
                                        onChange={(e) => setEmail(e.target.value)}
                                        placeholder="Email адрес*"
                                        required

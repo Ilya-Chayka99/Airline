@@ -1,6 +1,8 @@
 package com.example.airline.Entity;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
+
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
