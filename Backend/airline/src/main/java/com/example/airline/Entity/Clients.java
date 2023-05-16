@@ -25,4 +25,5 @@ public class Clients {
     private String phone;
     private Long serpass;
     private Long numberpass;
+    private String password;
 }

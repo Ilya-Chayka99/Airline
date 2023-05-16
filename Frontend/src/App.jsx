@@ -10,30 +10,31 @@ import Oplata from "./Components/Page/Oplata.jsx";
 import SuccessOplP from "./Components/Page/SuccessOplP.jsx";
 import RegisterList from "./Components/Page/RegisterList.jsx";
 import RegisterR from "./Components/RegisterR/RegisterR.jsx";
+
 function App() {
-  return (
-      <>
-          <div className="str">
-              <Heder/>
-              <Routes>
-                  <Route path='/' element={<Main/>}/>
-                  <Route path='/selectticket' element={<SelectTicket/>}/>
-                  <Route path='/byticket' element={<ByTicket/>}/>
-                  <Route path='/methodopl' element={<Oplata/>}/>
-                  <Route path='/success' element={<SuccessOplP/>}/>
-                  <Route path='/register-list' element={<RegisterList/>}/>
-                  <Route path='/register-form' element={<RegisterR/>}/>
-              </Routes>
-          </div>
-          <Routes>
-              <Route path='/' element={<AppBanner/>}/>
-              <Route path='/selectticket' element={<AppBanner/>}/>
-              <Route path='/methodopl' element={<AppBanner/>}/>
-              <Route path='/success' element={<AppBanner/>}/>
-          </Routes>
-          <Futter/>
-      </>
-  )
+    return (
+        <>
+            <div className="str">
+                <Heder/>
+                <Routes>
+                    <Route path='/' element={<Main/>}/>
+                    <Route path='/selectticket' element={<SelectTicket/>}/>
+                    <Route path='/byticket' element={<ByTicket/>}/>
+                    <Route path='/methodopl' element={<Oplata/>}/>
+                    <Route path='/success' element={<SuccessOplP/>}/>
+                    <Route path='/register-list' element={<RegisterList/>}/>
+                    <Route path='/register-form' element={<RegisterR/>}/>
+                </Routes>
+            </div>
+            <Routes>
+                <Route path='/' element={<AppBanner/>}/>
+                <Route path='/selectticket' element={<AppBanner/>}/>
+                <Route path='/methodopl' element={<AppBanner/>}/>
+                <Route path='/success' element={<AppBanner/>}/>
+            </Routes>
+            <Futter/>
+        </>
+    )
 }
 
 export default App

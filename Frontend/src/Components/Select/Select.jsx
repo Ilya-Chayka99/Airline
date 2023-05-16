@@ -1,10 +1,8 @@
 import React, {useRef} from 'react'
 import {useEffect, useState} from "react";
 import ky from 'ky'
-import {Listbox, Transition} from "@headlessui/react";
-import { FiChevronsDown } from "react-icons/fi";
-import { Calendar} from 'primereact/calendar';
-import { Button } from 'primereact/button';
+import {Calendar} from 'primereact/calendar';
+import {Button} from 'primereact/button';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import './Select.css'
@@ -14,48 +12,42 @@ import {selectLoadForm} from "../slice/airSlise.jsx";
 import {Dropdown} from "primereact/dropdown";
 
 
-const Select = ({reg,setDate,setG_p,setG_v}) =>{
+const Select = ({reg, setDate, setG_p, setG_v}) => {
     const dispatch = useDispatch();
-    const [city,setCity] = useState([])
-    const [selectOutput,setSelectOutput] = useState(useSelector(state => state.air.selectOutput))
-    const [selectInput,setSelectInput] = useState(useSelector(state => state.air.selectInput))
+    const [city, setCity] = useState([])
+    const [selectOutput, setSelectOutput] = useState(useSelector(state => state.air.selectOutput))
+    const [selectInput, setSelectInput] = useState(useSelector(state => state.air.selectInput))
     const [dateOutput, setDateOutput] = useState(useSelector(state => state.air.dateOutput));
     const [dateInput, setDateInput] = useState(useSelector(state => state.air.dateInput));
     const aRef = useRef()
-    const bRef = useRef()
     const navigate = useNavigate();
-    useEffect(()=>{
-        if(dateOutput)
-            aRef.current.innerHTML=''
-        else aRef.current.innerHTML='Дата вылета'
-    },[dateOutput])
+    useEffect(() => {
+        if (dateOutput)
+            aRef.current.innerHTML = ''
+        else aRef.current.innerHTML = 'Дата вылета'
+    }, [dateOutput])
 
-    // useEffect(()=>{
-    //     if(dateInput)
-    //         bRef.current.innerHTML=''
-    //     else bRef.current.innerHTML='Дата возврата'
-    // },[dateInput])
-    useEffect( ()=>{
+    useEffect(() => {
         async function fetchData() {
             setCity(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json())
         }
-        fetchData().then(r =>  r)
-        if(reg){
+
+        fetchData().then(r => r)
+        if (reg) {
             setSelectOutput(null)
             setSelectInput(null)
             setDateOutput(null)
         }
-    },[])
+    }, [])
 
     const sub = (event) => {
         event.preventDefault()
-        if(reg){
+        if (reg) {
             setDate(dateOutput)
             setG_v(selectOutput)
             setG_p(selectInput)
-        }
-        else {
-            if((selectOutput.id!==0) && (selectInput.id!==0) && dateOutput){
+        } else {
+            if ((selectOutput.id !== 0) && (selectInput.id !== 0) && dateOutput) {
                 dispatch(selectLoadForm({selectInput, selectOutput, dateInput, dateOutput}));
                 navigate("/selectticket")
             }
@@ -81,36 +73,30 @@ const Select = ({reg,setDate,setG_p,setG_v}) =>{
             </div>
         );
     };
-    return(
+    return (
         <form className="cont" onSubmit={sub}>
             <Dropdown value={selectOutput} onChange={(e) => setSelectOutput(e.value)}
                       options={city} optionLabel="name"
                       placeholder="Город вылета"
                       filter valueTemplate={selectedCountryTemplate}
-                      itemTemplate={countryOptionTemplate} className="w-full md:w-14rem" />
+                      itemTemplate={countryOptionTemplate} className="w-full md:w-14rem"/>
             <Dropdown value={selectInput} onChange={(e) => setSelectInput(e.value)}
                       options={city} optionLabel="name"
                       placeholder="Город Прилета"
                       filter valueTemplate={selectedCountryTemplate}
-                      itemTemplate={countryOptionTemplate} className="w-full md:w-14rem" />
+                      itemTemplate={countryOptionTemplate} className="w-full md:w-14rem"/>
             <span className="p-float-label">
                 <Calendar inputId="birth_date" value={dateOutput}
                           onChange={(e) => setDateOutput(e.value)}
                           minDate={new Date()}
-                          dateFormat="dd/mm/yy" showIcon iconPos="left" showButtonBar />
+                          dateFormat="dd/mm/yy" showIcon iconPos="left" showButtonBar/>
                 <label htmlFor="birth_date" className="l" ref={aRef}>Дата вылета</label>
             </span>
-            {/*<span className="p-float-label">*/}
-            {/*    <Calendar inputId="birth_date" value={dateInput}*/}
-            {/*              onChange={(e) => setDateInput(e.value)}*/}
-            {/*              minDate={new Date()}*/}
-            {/*              dateFormat="dd/mm/yy" showIcon showButtonBar  iconPos="left" />*/}
-            {/*    <label htmlFor="birth_date" className="l" ref={bRef}>Дата Возврата</label>*/}
-            {/*</span>*/}
-            <Button label="Поиск" rounded className="b" />
+            <Button label="Поиск" rounded className="b"/>
         </form>
     )
 
 }
+
 
 export default Select;

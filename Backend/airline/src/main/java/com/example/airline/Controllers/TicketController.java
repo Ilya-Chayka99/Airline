@@ -13,18 +13,19 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@RequestMapping("/ticket")
 @AllArgsConstructor
 public class TicketController  {
     private TicketService ticketService;
 
     @CrossOrigin
-    @GetMapping(path = "ticket")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Ticket>> list(){
         return ResponseEntity.ok().body(ticketService.list());
     }
     @CrossOrigin
-    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "ticket/create")
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> create(@RequestBody Ticket t){
         if(ticketService.save(t))
@@ -32,7 +33,7 @@ public class TicketController  {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ошибка создания Билета");
     }
     @CrossOrigin
-    @PutMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "ticket/update")
+    @PutMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "update")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> put(@RequestBody Ticket t){
         if(ticketService.update(t))
@@ -40,7 +41,7 @@ public class TicketController  {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найден данный билет");
     }
     @CrossOrigin
-    @DeleteMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "ticket/delete")
+    @DeleteMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "delete")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> delete(@RequestBody Ticket t){
         if(ticketService.delete(t))
@@ -48,7 +49,7 @@ public class TicketController  {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ошибка удаления билета");
     }
     @CrossOrigin
-    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "ticket/search")
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "search")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Ticket> search(@RequestBody InfoRegisterTicket t){
         Ticket ticket = ticketService.search(t);
@@ -61,7 +62,7 @@ public class TicketController  {
         return ResponseEntity.ok().body(null);
     }
     @CrossOrigin
-    @PostMapping(path = "ticket/seat")
+    @PostMapping(path = "seat")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<String>> list(@RequestParam("id")Long id){
         return ResponseEntity.ok().body(ticketService.seat(id));
