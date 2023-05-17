@@ -26,7 +26,7 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestParam("phone") String phone, @RequestParam("password") String password) {
         Long id = authService.register(phone, password);
         if (id != -1) {
-            String token = StringUtil.generateStringWithAlphabet("qwertyuopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM", 60);
+            String token = StringUtil.generateStringWithAlphabet("qwertyuopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789", 60);
             return this.updateToken(token, id);
         } else {
             JSONObject json = new JSONObject();
@@ -41,12 +41,25 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestParam("phone") String phone, @RequestParam("password") String password) {
         Long id = authService.login(phone, password);
         if (id != -1) {
-            String token = StringUtil.generateStringWithAlphabet("qwertyuopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM", 60);
+            String token = StringUtil.generateStringWithAlphabet("qwertyuopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789", 60);
             return this.updateToken(token, id);
         } else {
             JSONObject json = new JSONObject();
             json.put("state", "err");
-            json.put("massage", "Такого пользователь не зарегистрирован!");
+            json.put("massage", "Пользователь не найден, проверьте корректность введенных данных!");
+            return ResponseEntity.ok().body(json.toString());
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "validToken")
+    public ResponseEntity<String> validToken(@RequestParam("token") String token) {
+        Long id = authService.validToken(token);
+        if (id != -1) {
+            return this.updateToken(token, id);
+        } else {
+            JSONObject json = new JSONObject();
+            json.put("state", "err");
             return ResponseEntity.ok().body(json.toString());
         }
     }

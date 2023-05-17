@@ -13,6 +13,7 @@
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.17",
     "@reduxjs/toolkit": "^1.9.5",
+    "dotenv": "^16.0.3",
     "ky": "^0.33.3",
     "node-sass": "^8.0.0",
     "primereact": "^9.3.1",

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TokensRepo extends JpaRepository<Tokens,Long> {
     public List<Tokens> findByTokenAndUserId(String token,Long user);
+    public Tokens findByToken(String token);
 }

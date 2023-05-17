@@ -18,37 +18,47 @@ public class AuthService {
     private ClientsRepo clientsRepo;
     private TokensRepo tokensRepo;
 
-    public Long register (String phone,String password){
-        List<Clients> clients =clientsRepo.findByPhone(phone);
+    public Long register(String phone, String password) {
+        List<Clients> clients = clientsRepo.findByPhone(phone);
         Clients clients1 = new Clients();
-        if(clients.size()==1){
-           if(Objects.equals(clients.get(0).getPassword(), null)){
-               clients1.setId(clients.get(0).getId());
-           }else return (long) -1;
+        if (clients.size() == 1) {
+            if (Objects.equals(clients.get(0).getPassword(), null)) {
+                clients1.setId(clients.get(0).getId());
+            } else return (long) -1;
         }
         clients1.setPhone(phone);
         clients1.setPassword(password);
         clientsRepo.save(clients1);
-        List<Clients> client =clientsRepo.findByPhone(phone);
+        List<Clients> client = clientsRepo.findByPhone(phone);
         return client.get(0).getId();
     }
-    public Long login (String phone,String password){
-        List<Clients> clients =clientsRepo.findByPhoneAndPassword(phone,password);
-        if(clients.size()==1){
-           return clients.get(0).getId();
+
+    public Long login(String phone, String password) {
+        List<Clients> clients = clientsRepo.findByPhoneAndPassword(phone, password);
+        if (clients.size() == 1) {
+            return clients.get(0).getId();
         }
         return (long) -1;
     }
 
-    public void updateToken (String token,Long userId){
+    public Long validToken(String token) {
+        Tokens token1 = tokensRepo.findByToken(token);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        if(token1!=null){
+            if (localDateTime.isBefore(token1.getTime()))
+                return token1.getUserId();
+            tokensRepo.delete(token1);
+        }
+        return (long) -1;
+    }
+
+    public void updateToken(String token, Long userId) {
         LocalDateTime currentTime = LocalDateTime.now().plusDays(2);
-        List<Tokens> tokens = tokensRepo.findByTokenAndUserId(token,userId);
-        Tokens tokens1=new Tokens();
-        if(tokens.size()>0){
-            tokens1.setUserId(tokens.get(0).getUserId());
+        List<Tokens> tokens = tokensRepo.findByTokenAndUserId(token, userId);
+        Tokens tokens1 = new Tokens();
+        if (tokens.size() > 0)
             tokens1.setId(tokens.get(0).getId());
-        }else
-            tokens1.setUserId(userId);
+        tokens1.setUserId(userId);
         tokens1.setToken(token);
         tokens1.setTime(currentTime);
         tokensRepo.save(tokens1);

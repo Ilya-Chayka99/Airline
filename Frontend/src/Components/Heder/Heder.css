@@ -8,7 +8,13 @@ header{
 }
 .appMenu ul{
     display: flex;
-
+    align-items: center;
+}
+.profile{
+    cursor: pointer;
+}
+.li-prof-auth{
+    margin-left: 64px;
 }
 li {
     text-decoration: none;
@@ -52,7 +58,4 @@ body{
 }
 .p-dialog .p-dialog-header .p-dialog-header-icon{
     background-color: #00FFFF;
-}
-.ERROR-MASSAGE{
-    color: red;
 }
