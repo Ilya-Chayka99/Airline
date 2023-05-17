@@ -6,7 +6,10 @@ const initialState = {
     dateOutput: null,
     dateInput: null,
     byTicket: null,
-    formByInfo: null
+    formByInfo: null,
+    auth:false,
+    phone:'',
+    count:0
 
 };
 const airSlice = createSlice({
@@ -24,6 +27,15 @@ const airSlice = createSlice({
         },
         selectFormByInfo: (state, action) => {
             state.formByInfo = action.payload;
+        },
+        selectAuth: (state, action) => {
+            state.auth = action.payload;
+        },
+        selectPhone: (state, action) => {
+            state.phone = action.payload;
+        },
+        selectCount:(state, action) => {
+            state.count = state.count +1;
         }
 
 
@@ -37,5 +49,8 @@ export default reducer;
 export const {
     selectLoadForm,
     selectByTicket,
-    selectFormByInfo
+    selectFormByInfo,
+    selectAuth,
+    selectPhone,
+    selectCount
 } = actions;

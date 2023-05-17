@@ -70,8 +70,17 @@ public class AuthController {
                                               @RequestParam("userId") Long userId) {
         authService.updateToken(token, userId);
         JSONObject json = new JSONObject();
-        json.put("state", "good");
+        json.put("state", "OK");
         json.put("token", token);
         return ResponseEntity.ok().body(json.toString());
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "info")
+    public ResponseEntity<String> info(@RequestParam("token") String token) {
+        JSONObject json = authService.info(token);
+        json.put("state", "OK");
+        return ResponseEntity.ok().body(json.toString());
+
     }
 }

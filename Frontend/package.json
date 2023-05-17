@@ -16,6 +16,7 @@
     "dotenv": "^16.0.3",
     "ky": "^0.33.3",
     "node-sass": "^8.0.0",
+    "primeicons": "^6.0.1",
     "primereact": "^9.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

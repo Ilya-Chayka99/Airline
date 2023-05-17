@@ -10,14 +10,27 @@ import Oplata from "./Components/Page/Oplata.jsx";
 import SuccessOplP from "./Components/Page/SuccessOplP.jsx";
 import RegisterList from "./Components/Page/RegisterList.jsx";
 import RegisterR from "./Components/RegisterR/RegisterR.jsx";
+import Profile from "./Components/Profile/Profile.jsx";
+
+
 
 function App() {
     return (
         <>
             <div className="str">
-                <Heder/>
+                <Routes>
+                    <Route path='/' element={<Heder/>}/>
+                    <Route path='/profile' element={<Heder/>}/>
+                    <Route path='/selectticket' element={<Heder/>}/>
+                    <Route path='/byticket' element={<Heder/>}/>
+                    <Route path='/methodopl' element={<Heder/>}/>
+                    <Route path='/success' element={<Heder/>}/>
+                    <Route path='/register-list' element={<Heder/>}/>
+                    <Route path='/register-form' element={<Heder/>}/>
+                </Routes>
                 <Routes>
                     <Route path='/' element={<Main/>}/>
+                    <Route path='/profile' element={<Profile/>}/>
                     <Route path='/selectticket' element={<SelectTicket/>}/>
                     <Route path='/byticket' element={<ByTicket/>}/>
                     <Route path='/methodopl' element={<Oplata/>}/>

@@ -13,6 +13,7 @@ const RegisterList = () => {
     const [g_p, setG_p] = useState(null);
     const [date, setDate] = useState(null);
     useEffect(() => {
+        document.getElementById('root').style.background="none"
         function f(z) {
             setFlk(z)
             setFl(z)

@@ -5,11 +5,13 @@ import com.example.airline.Entity.Tokens;
 import com.example.airline.Repository.ClientsRepo;
 import com.example.airline.Repository.TokensRepo;
 import lombok.AllArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -50,6 +52,13 @@ public class AuthService {
             tokensRepo.delete(token1);
         }
         return (long) -1;
+    }
+    public JSONObject info(String token) {
+        Tokens token1 = tokensRepo.findByToken(token);
+        Optional<Clients> clients = clientsRepo.findById(token1.getUserId());
+        JSONObject json = new JSONObject();
+        json.put("phone", clients.get().getPhone());
+        return json;
     }
 
     public void updateToken(String token, Long userId) {

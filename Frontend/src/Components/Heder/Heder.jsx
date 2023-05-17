@@ -2,28 +2,35 @@ import logo from './img/Logo.png'
 import reg from './img/reg.png'
 import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
 import {Dialog} from 'primereact/dialog';
-import {useEffect, useState} from "react";
-import './Heder.css'
+import {useEffect, useRef, useState} from "react";
 import Cookies from 'universal-cookie';
 import {Password} from "primereact/password";
 import {InputMask} from "primereact/inputmask";
 import ky from "ky";
 import {Message} from "primereact/message";
 import {Avatar} from "primereact/avatar";
-import {BsPersonFill} from "react-icons/bs";
-const CONFIG_APP=import.meta.env
+import {BsPersonFill, BsPersonGear, BsPower} from "react-icons/bs";
+import {useDispatch, useSelector} from "react-redux";
+import {selectAuth, selectPhone} from "../slice/airSlise.jsx";
+import {Menu} from "primereact/menu";
+import './Heder.css'
+
+
 
 
 const Heder = () => {
+    const location = useLocation()
+    const CONFIG_APP = import.meta.env
     const [visible, setVisible] = useState(false);
     const [valueN, setValueN] = useState('');
     const [valueP, setValueP] = useState('');
     const [valueP2, setValueP2] = useState('');
     const [error, setError] = useState('');
     const [registors, setRegistors] = useState(false);
-    const [auth, setAuth] = useState(false);
-    const location = useLocation()
+    const [auth, setAuth] = useState(useSelector(state => state.air.auth));
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const menu_profile = useRef(null);
 
     const login = async () => {
         if (valueP.length < 8) {
@@ -33,14 +40,18 @@ const Heder = () => {
             const formData = new FormData();
             formData.append('phone', valueN)
             formData.append('password', valueP)
-            const request = await ky.post(`auth/login`, {prefixUrl: 'http://localhost:8080', body: formData}).json()
+            const request = await ky.post(`auth/login`, {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                body: formData
+            }).json()
             if (request.state === 'err') {
                 setError(request.massage)
             } else {
                 const cookies = new Cookies();
                 cookies.set('token', request.token);
-                console.log(cookies.get('token'))
                 setAuth(true)
+                dispatch(selectPhone(valueN))
+                dispatch(selectAuth(true))
                 setVisible(false)
             }
         }
@@ -54,13 +65,18 @@ const Heder = () => {
             const formData = new FormData();
             formData.append('phone', valueN)
             formData.append('password', valueP)
-            const request = await ky.post(`auth/register`, {prefixUrl: 'http://localhost:8080', body: formData}).json()
+            const request = await ky.post(`auth/register`, {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                body: formData
+            }).json()
             if (request.state === 'err') {
                 setError(request.massage)
             } else {
                 const cookies = new Cookies();
                 cookies.set('token', request.token);
                 setAuth(true)
+                dispatch(selectAuth(true))
+                dispatch(selectPhone(valueN))
                 setVisible(false)
             }
         }
@@ -71,13 +87,23 @@ const Heder = () => {
         const refresh = async (token) => {
             const formData = new FormData();
             formData.append('token', token)
-            request = await ky.post(`auth/validToken`, {prefixUrl: 'http://localhost:8080', body: formData}).json()
+            request = await ky.post(`auth/validToken`, {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                body: formData
+            }).json()
             if (request.state === 'err') {
                 cookies.remove('token')
                 setAuth(false)
+                dispatch(selectAuth(false))
                 navigate('/')
             } else {
                 setAuth(true)
+                dispatch(selectAuth(true))
+                const request_phone = await ky.post(`auth/info`, {
+                    prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                    body: formData
+                }).json()
+                setValueN(request_phone.phone)
             }
         }
         const cookies = new Cookies();
@@ -85,14 +111,52 @@ const Heder = () => {
         if (token) {
             refresh(token).then(r => r)
         }
-
-        console.log(CONFIG_APP.VITE_REACT_APP_TITLE)
     }, [])
+
+    let items = [
+        {
+            label: 'Личный кабинет', icon: <BsPersonFill style={{marginRight: "10px"}}/>,
+            command: () => {
+                navigate("/profile")
+            }
+        },
+        {
+            label: 'Настройки', icon: <BsPersonGear style={{marginRight: "10px"}}/>,
+            command: () => {
+
+            }
+        },
+        {separator: true},
+        {
+            template: () => {
+                return (
+                    <>
+                        <div className="flex flex-column align">
+                            <span className="font-bold  avatar-panel">{valueN}</span>
+                        </div>
+                    </>
+                )
+            }
+        },
+        {separator: true},
+        {
+            label: 'Выйти', icon: <BsPower style={{marginRight: "10px"}}/>,
+            command: () => {
+                const cookies = new Cookies();
+                cookies.remove('token')
+                setAuth(false)
+                dispatch(selectAuth(false))
+                if (location.pathname === '/profile' || location.pathname === '/admin')
+                    navigate('/')
+            }
+        }
+    ];
+
 
     return (
         <>
-            <header>
-                <img src={logo} alt="logo"/>
+            <header className='he'>
+                <img src={logo} alt="logo" onClick={() => navigate('/')} className='logotip'/>
                 <nav className="appMenu">
                     <ul>
                         <li>
@@ -108,8 +172,10 @@ const Heder = () => {
                                      className="nav">О компании</NavLink>
                         </li>
                         <li className="li-prof-auth">
+                            <Menu model={items} popup ref={menu_profile}/>
                             {auth ? <Avatar label={<BsPersonFill/>} size="large" className="profile"
-                                            style={{backgroundColor: '#2196F3', color: '#ffffff'}} shape="circle"/>
+                                            style={{backgroundColor: '#2196F3', color: '#ffffff'}} shape="circle"
+                                            onClick={(e) => menu_profile.current.toggle(e)}/>
                                 : <p className="btLog" onClick={() => setVisible(true)}>Авторизация</p>}
                             {!registors ?
                                 <>
