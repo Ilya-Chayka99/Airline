@@ -4,6 +4,7 @@ import com.example.airline.Entity.Airport;
 import com.example.airline.Entity.Flights;
 import com.example.airline.Service.FlightsService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class FlightsController {
+    @Autowired
     private FlightsService flightsService;
 
     @CrossOrigin

@@ -27,7 +27,7 @@ const Heder = () => {
     const [valueP2, setValueP2] = useState('');
     const [error, setError] = useState('');
     const [registors, setRegistors] = useState(false);
-    const [auth, setAuth] = useState(useSelector(state => state.air.auth));
+    const auth = useSelector(state => state.air.auth);
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const menu_profile = useRef(null);
@@ -49,7 +49,7 @@ const Heder = () => {
             } else {
                 const cookies = new Cookies();
                 cookies.set('token', request.token);
-                setAuth(true)
+                // setAuth(true)
                 dispatch(selectPhone(valueN))
                 dispatch(selectAuth(true))
                 setVisible(false)
@@ -74,14 +74,13 @@ const Heder = () => {
             } else {
                 const cookies = new Cookies();
                 cookies.set('token', request.token);
-                setAuth(true)
+                // setAuth(true)
                 dispatch(selectAuth(true))
                 dispatch(selectPhone(valueN))
                 setVisible(false)
             }
         }
     }
-
     useEffect(() => {
         let request = {};
         const refresh = async (token) => {
@@ -93,11 +92,11 @@ const Heder = () => {
             }).json()
             if (request.state === 'err') {
                 cookies.remove('token')
-                setAuth(false)
+                // setAuth(false)
                 dispatch(selectAuth(false))
                 navigate('/')
             } else {
-                setAuth(true)
+                // setAuth(true)
                 dispatch(selectAuth(true))
                 const request_phone = await ky.post(`auth/info`, {
                     prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
@@ -144,7 +143,7 @@ const Heder = () => {
             command: () => {
                 const cookies = new Cookies();
                 cookies.remove('token')
-                setAuth(false)
+                // setAuth(false)
                 dispatch(selectAuth(false))
                 if (location.pathname === '/profile' || location.pathname === '/admin')
                     navigate('/')

@@ -4,7 +4,9 @@ import com.example.airline.Entity.Ticket;
 import com.example.airline.Service.AuthService;
 import com.example.airline.Utils.StringUtil;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +19,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
+@NoArgsConstructor
 public class AuthController {
-
-    AuthService authService;
+    @Autowired
+    private AuthService authService;
 
     @CrossOrigin
     @PostMapping(path = "register")

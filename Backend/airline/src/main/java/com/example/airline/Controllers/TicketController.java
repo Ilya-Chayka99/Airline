@@ -4,6 +4,8 @@ import com.example.airline.Entity.InfoRegisterTicket;
 import com.example.airline.Entity.Ticket;
 import com.example.airline.Service.TicketService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/ticket")
 @AllArgsConstructor
+@NoArgsConstructor
 public class TicketController  {
+    @Autowired
     private TicketService ticketService;
 
     @CrossOrigin

@@ -5,7 +5,9 @@ import com.example.airline.Entity.Tokens;
 import com.example.airline.Repository.ClientsRepo;
 import com.example.airline.Repository.TokensRepo;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,9 +17,11 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@NoArgsConstructor
 public class AuthService {
-
+    @Autowired
     private ClientsRepo clientsRepo;
+    @Autowired
     private TokensRepo tokensRepo;
 
     public Long register(String phone, String password) {

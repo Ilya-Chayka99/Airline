@@ -13,6 +13,6 @@ public class InfoRegisterTicket {
 
     private Long id_flight;
     private String bil;
-    private Long serPas;
-    private Long nomPas;
+    private String serPas;
+    private String nomPas;
 }

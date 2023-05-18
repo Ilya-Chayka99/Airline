@@ -20,8 +20,8 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long id_client;
-    private Long id_flight;
+    private Long idclient;
+    private Long idflight;
     private Date date_registration= new Date();
     private String seat_number;
     private Long status;
@@ -30,8 +30,8 @@ public class Ticket {
     private String lastname;
     private Date datero;
     private String phone;
-    private Long serpass;
-    private Long nompass;
+    private String serpass;
+    private String nompass;
     private String serial;
     private String email;
 

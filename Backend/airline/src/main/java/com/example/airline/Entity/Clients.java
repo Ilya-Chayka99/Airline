@@ -23,7 +23,7 @@ public class Clients {
     private String lastname;
     private String email;
     private String phone;
-    private Long serpass;
-    private Long numberpass;
+    private String serpass;
+    private String numberpass;
     private String password;
 }
