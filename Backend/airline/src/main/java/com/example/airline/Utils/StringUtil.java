@@ -21,17 +21,12 @@ public class StringUtil {
 
         StringBuilder maskedString = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            if (i < endIndex || input.charAt(i) == ' ') {
+            if (i < endIndex || i>length-visibleChars-1) {
                 maskedString.append(input.charAt(i));
             } else {
                 maskedString.append('*');
             }
         }
-
-        if (length > visibleChars) {
-            maskedString.append(input.substring(visibleChars));
-        }
-
         return maskedString.toString();
     }
 

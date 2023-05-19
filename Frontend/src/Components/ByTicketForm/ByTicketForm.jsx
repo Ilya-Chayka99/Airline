@@ -50,8 +50,8 @@ const ByTicketForm = () => {
                 prefixUrl: 'http://localhost:8080', json:
                     {
                         "id": null,
-                        "id_client": null,
-                        "id_flight": ticket.id,
+                        "idclient": null,
+                        "idflight": ticket.id,
                         "seat_number": null,
                         "status": 1,
                         "name": name,

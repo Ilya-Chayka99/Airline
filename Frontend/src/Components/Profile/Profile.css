@@ -158,3 +158,79 @@
     align-items: flex-start;
     margin-bottom:27px ;
 }
+.btn-update-info{
+    display: flex;
+
+    margin-top: 100px;
+
+}
+.btn-update-info button{
+    border-radius: 24px;
+    width: 174px;
+    height: 42px;
+    border: none;
+    cursor: pointer;
+    background: #01427D;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size:14px;
+}
+.btn-update-info button:hover{
+    background: #01607d;
+}
+
+.email-profile{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Open Sans', sans-serif;
+}
+.email-profile .p-inputtext{
+    background: white;
+    color: #01427D;
+    width: 180px;
+    margin-right: 20px;
+}
+.email-group{
+    display: flex;
+    justify-content: space-evenly;
+}
+.email-group button{
+    border-radius: 24px;
+    width: 174px;
+    height: 42px;
+    border: none;
+    cursor: pointer;
+    background: #01427D;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size:14px;
+}
+.form-edit-info{
+    background: #0094FF;
+    width: 902px;
+    height: 556px;
+    margin-top: 70px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-save{
+    border-radius: 24px;
+    width: 174px;
+    height: 42px;
+    border: none;
+    cursor: pointer;
+    background: #01427D;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    font-size:14px;
+}
+.btn-save:hover{
+    background: #01607d;
+}
+
