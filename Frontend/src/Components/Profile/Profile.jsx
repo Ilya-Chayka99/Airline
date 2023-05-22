@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {TabMenu} from "primereact/tabmenu";
 import './Profile.css'
 import {
@@ -21,6 +21,7 @@ import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {FilterMatchMode} from "primereact/api";
 import {Tag} from "primereact/tag";
+import {Toast} from "primereact/toast";
 
 
 const Profile = () => {
@@ -39,7 +40,7 @@ const Profile = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const CONFIG_APP = import.meta.env
-
+    const toast = useRef(null);
 
     useEffect(() => {
         const cookies = new Cookies();
@@ -73,21 +74,32 @@ const Profile = () => {
     }, [request])
 
     const save = async () => {
-        const cookies = new Cookies();
-        const formData = new FormData();
-        formData.append('token', cookies.get("token"))
-        let a = request.client
-        a.lastname = lastname
-        a.name = name
-        a.surname = sername
-        a.serpass = serpass
-        a.numberpass = numderpass
-        formData.append('client', a)
-        console.log(a)
-        await ky.post(`info/save`, {
-            prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
-            json: a
-        }).json()
+        if (name === '' || sername === '' || serpass === '' || numderpass === '') {
+            toast.current.show({
+                severity: 'error',
+                summary: 'Ошибка',
+                detail: 'Заполните все обязательные поля!',
+                life: 3000
+            });
+        } else {
+            const cookies = new Cookies();
+            const formData = new FormData();
+            formData.append('token', cookies.get("token"))
+            let a = request.client
+            a.lastname = lastname
+            a.name = name
+            a.surname = sername
+            a.serpass = serpass
+            a.numberpass = numderpass
+            formData.append('client', a)
+            console.log(a)
+            await ky.post(`info/save`, {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                json: a
+            }).json()
+            setActiveIndex_left(0)
+        }
+
     }
 
 
@@ -143,6 +155,7 @@ const Profile = () => {
 
     return (
         <>
+            <Toast ref={toast}/>
             {request !== null &&
                 <div className="panel-profile">
                     <TabMenu model={items} activeIndex={activeIndex}
@@ -202,35 +215,47 @@ const Profile = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>) : (activeIndex_left === 1 ? (<form className="block-info form-edit-info">
-                                    <div className='payment-to-bananz-title'>Верификация</div>
+                                </div>) : (activeIndex_left === 1 ? ((request?.client?.name === null || request?.client?.name === '') ?
+                                    <form className="block-info form-edit-info">
+                                        <div className='profile-info-ver'>Верификация</div>
+
+                                        <div className="profile-form-inputs">
+                                            <InputText style={{marginBottom: '30px', width: '645px'}} value={name}
+                                                       placeholder="Имя*"
+                                                       onChange={(e) => {
+                                                           setName(e.target.value)
+
+                                                       }}/>
+                                            <InputText style={{marginBottom: '30px', width: '645px'}} value={sername}
+                                                       placeholder="Фамилия*"
+                                                       onChange={(e) => {
+                                                           setSername(e.target.value)
+                                                       }}/>
+                                            <InputText style={{marginBottom: '30px', width: '645px'}} value={lastname}
+                                                       placeholder="Отчество"
+                                                       onChange={(e) => {
+                                                           setLastname(e.target.value)
+                                                       }}/>
+                                            <InputMask mask='9999' style={{marginBottom: '30px', width: '645px'}}
+                                                       placeholder="Серия паспорта*"
+                                                       value={serpass} onChange={(e) => setSerpass(e.target.value)}/>
+
+                                            <InputMask mask='999999' style={{marginBottom: '30px', width: '645px'}}
+                                                       placeholder="Номер паспорта*"
+                                                       value={numderpass}
+                                                       onChange={(e) => setNumderpass(e.target.value)}/>
+                                        </div>
 
 
-                                    <InputText style={{marginBottom: '30px', width: '645px'}} value={name} placeholder="Имя"
-                                               onChange={(e) => {
-                                                   setName(e.target.value)
-                                               }}/>
-                                    <InputText style={{marginBottom: '30px', width: '645px'}} value={sername} placeholder="Фамилия"
-                                               onChange={(e) => {
-                                                   setSername(e.target.value)
-                                               }}/>
-                                    <InputText style={{marginBottom: '30px', width: '645px'}} value={lastname} placeholder="Отчество"
-                                               onChange={(e) => {
-                                                   setLastname(e.target.value)
-                                               }}/>
-                                    <InputMask mask='9999' style={{marginBottom: '30px', width: '645px'}} placeholder="Серия паспорта"
-                                               value={serpass} onChange={(e) => setSerpass(e.target.value)}/>
-
-                                    <InputMask mask='999999' style={{marginBottom: '30px', width: '645px'}} placeholder="Номер паспорта"
-                                               value={numderpass} onChange={(e) => setNumderpass(e.target.value)}/>
-
-                                    <button type='submit' onClick={(event) => {
-                                        event.preventDefault()
-                                        save().then(r => r)
-                                        setEmail(valueEmail)
-                                    }} className="btn-save">Сохранить
-                                    </button>
-                                </form>) : (<div></div>))}
+                                        <button type='submit' onClick={(event) => {
+                                            event.preventDefault()
+                                            save().then(r => r)
+                                            setEmail(valueEmail)
+                                        }} className="btn-save">Сохранить
+                                        </button>
+                                    </form> : <div style={{color:"white",fontFamily:"'Open Sans', sans-serif"}} >Вы уже заполнили данные аккаунта,
+                                        если вам необходимо сменить данные то обратитесь к
+                                        администратору!</div>) : (<div></div>))}
                             </div>}
                             <div>
                                 {activeIndex === 1 && <div className="profile-info-main">

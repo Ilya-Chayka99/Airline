@@ -10,6 +10,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -27,8 +28,8 @@ public class Flights {
     private Long id_p;
     private Integer kol_mest;
     private String bort;
-    private Date date_v;
-    private Date date_p;
+    private LocalDate date_v;
+    private LocalDate date_p;
     private String status;
     private String aviacompani;
     private String numberreis;

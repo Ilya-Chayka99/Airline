@@ -72,9 +72,11 @@ const CardT = (props) => {
                     </div>
                 </div>
                 <p>* Вылет
-                    в {new Date(x.time_v).getHours() + ":" + new Date(x.time_v).getMinutes()}</p>
+                    в {new Date(x.time_v).getHours()<10?"0"+new Date(x.time_v).getHours():new Date(x.time_v).getHours()}:
+                    {new Date(x.time_v).getMinutes()<10?"0"+new Date(x.time_v).getMinutes():new Date(x.time_v).getMinutes()}</p>
                 <p>* Прилет
-                    в {new Date(x.time_p).getHours() + ":" + new Date(x.time_p).getMinutes()}</p>
+                    в {new Date(x.time_p).getHours()<10?"0"+new Date(x.time_p).getHours():new Date(x.time_p).getHours()}:
+                    {new Date(x.time_p).getMinutes()<10?"0"+new Date(x.time_p).getMinutes():new Date(x.time_p).getMinutes()}</p>
                 <p>* Регистрация будет доступна за сутки до вылета</p>
             </Card>
         </>

@@ -234,3 +234,11 @@
     background: #01607d;
 }
 
+.profile-info-ver{
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+.profile-form-inputs .p-inputtext{
+    background: rgba(255,255,255,100);
+    color: black;
+}
