@@ -24,7 +24,7 @@ public class Ticket {
     private Long idflight;
     private Date date_registration= new Date();
     private String seat_number;
-    private Long status;
+    private String status;
     private String name;
     private String sename;
     private String lastname;

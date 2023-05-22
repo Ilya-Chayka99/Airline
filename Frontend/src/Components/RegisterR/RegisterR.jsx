@@ -1,12 +1,15 @@
 import {InputMask} from "primereact/inputmask";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import ky from "ky";
 import {useNavigate} from "react-router-dom";
 import './RegisterR.css'
 import {BsArrowRightSquareFill} from "react-icons/bs";
 import lig from './img/business.png'
 import {Dialog} from "primereact/dialog";
+const CONFIG_APP = import.meta.env
+import { Toast } from 'primereact/toast';
+
 
 const RegisterR = () => {
     const [ticket, setTicket] = useState(useSelector(state => state.air.byTicket))
@@ -20,15 +23,33 @@ const RegisterR = () => {
     const [seat, setSeat] = useState('');
     const [info, setInfo] = useState(null);
     const [visible, setVisible] = useState(false);
+    const toast = useRef(null);
+    const [_ws, _setWs] = useState();
+
+
 
     useEffect(() => {
         if (ticket == null) navigate("/")
-
         async function fetchData1() {
-            setAir(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json())
+            setAir(await ky('Airport', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND}).json())
         }
 
         fetchData1().then(r => r)
+        const ws = new WebSocket('ws://localhost:8080/wsUser');
+        ws.onopen = () => {
+            console.log("Соединение установлено");
+            _setWs(ws)
+        };
+        ws.onmessage = (event) => {
+            // console.log("Получено сообщение: ", event.data);
+            setSetClose(event.data)
+        }
+        ws.onclose = (event) => {
+            console.log("WebSocket closed with code:", event.code);
+        };
+        return () => {
+            ws.close();
+        };
     }, [])
 
     const timeFormat = (date) => {
@@ -45,21 +66,24 @@ const RegisterR = () => {
         event.preventDefault()
 
         async function fetchData() {
-            setTicketValid(await ky.post('ticket/search', {prefixUrl: 'http://localhost:8080',json:{
+            const req=await ky.post('ticket/search', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,json:{
                 "id_flight":ticket.id,
                 "bil":bil,
                 "serPas":serPas,
                 "nomPas":nomPas
-                }}).json())
+                }}).json()
+            setTicketValid(req)
+            if(req===null || req===''){
+                    toast.current.show({severity:'error', summary: 'Ошибка', detail:'Билет не найден!! Проверьте введеную информацию.', life: 3000});
+            }
         }
 
         fetchData().then(r => r)
         async function fetchData1() {
             const searchParams = new URLSearchParams();
             searchParams.set('id',ticket.id)
-            setSetClose(await ky.post(`ticket/seat`, {prefixUrl: 'http://localhost:8080',body:searchParams}).json())
+            setSetClose(await ky.post(`ticket/seat`, {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:searchParams}).json())
         }
-
         fetchData1().then(r => r)
     }
     useEffect(() => {
@@ -76,6 +100,32 @@ const RegisterR = () => {
         if(setClose.includes(id)) return 1;
         return 0;
     }
+    const reg =  () => {
+
+
+        async function fetchData(){
+        const formData = new FormData();
+        formData.append('phone', null)
+        formData.append('seat_number', seat)
+        formData.append('status', "Оформлен")
+        formData.append('serial', bil)
+        const req= await ky.post('ticket/setinfoticketseat', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:
+            formData
+        }).json().catch(err=>console.log(err))
+            if(req.status==="err")
+                toast.current.show({severity:'error', summary: 'Ошибка', detail:req.massage, life: 3000});
+            if(req.status==="OK"){
+                _ws.send(JSON.stringify(ticket.id))
+                toast.current.show({severity:'success', summary: '', detail:"Вы успешно зарегистрировалиись на рейс!", life: 3000});
+                setTimeout(()=>{
+                    navigate("/")
+                },2000)
+            }
+
+        }
+    fetchData().then(r => r)
+
+    }
 
     return (
         <>
@@ -90,7 +140,7 @@ const RegisterR = () => {
                     <img src={lig} alt=""/>
                     <span className="spk">Поиск билета</span>
                     <div className="serch">
-
+                        <Toast ref={toast} />
                         <InputMask id="ssn" value={bil} mask="***-***-***-******" placeholder="Номер билета*"
                                    onChange={(e) => setBil(e.target.value)}></InputMask>
                         <InputMask value={serPas}
@@ -116,12 +166,14 @@ const RegisterR = () => {
                             new Date(info.date_registration)?.toLocaleString('default', {month: 'long'}) + " " +
                             timeFormat(info.date_registration)}</span>
                     </div>}
-                    <div className={"seat"} onClick={() => setVisible(ticketValid !== '' && ticketValid !== null)}>
+                    <div className={"seat"} >
                         <button className={ticketValid!=='' && ticketValid !== null?"form-btn":"form-btn-close"} style={{
                             marginBottom: "40px",
                             marginRight: "20px"
-                        }}>{seat === '' ? "Выбрать место" : seat}</button>
-                        <button className="form-btn" style={{marginBottom: "40px"}}>Зарегистрировать</button>
+                        }} onClick={() => setVisible(ticketValid !== '' && ticketValid !== null)}>{seat === '' ? "Выбрать место" : seat}</button>
+                        <button className={seat !== ''?"form-btn":"form-btn-close"} style={{marginBottom: "40px"}} onClick={()=>{
+                            seat!=='' && reg()
+                        }}>Зарегистрировать</button>
                     </div>
                 </div>
                 <Dialog visible={visible} className="airplane" style={{

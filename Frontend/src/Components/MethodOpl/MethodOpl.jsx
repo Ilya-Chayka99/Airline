@@ -6,6 +6,7 @@ import info from './img/info.png'
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import ky from "ky";
+const CONFIG_APP = import.meta.env
 
 const MethodOpl = ()=>{
     const [activeIndex, setActiveIndex] = useState(0);
@@ -37,6 +38,18 @@ const MethodOpl = ()=>{
         //     }).json().catch(err=>console.log(err))
         // }
         // fetchData().then(r => r)
+
+        async function fetchData() {
+                const formData = new FormData();
+                formData.append('phone', form.tel)
+                formData.append('seat_number', null)
+                formData.append('status', "Оформлен")
+                formData.append('serial', "")
+                await ky.post('ticket/setinfoticketseat', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:
+                      formData
+                }).json().catch(err=>console.log(err))
+            }
+            fetchData().then(r => r)
         navigate("/success")
 
     }

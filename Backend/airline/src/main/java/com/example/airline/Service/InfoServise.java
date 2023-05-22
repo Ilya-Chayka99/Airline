@@ -36,6 +36,7 @@ public class InfoServise {
             Clients clients = clientsRepo.findById(id).get();
             JSONObject js = new JSONObject();
             js.put("id", clients.getId());
+            js.put("statusrole", clients.getStatusrole());
             js.put("name", clients.getName() != null ? clients.getName() : "");
             js.put("surname", clients.getSurname() != null ? clients.getSurname() : "");
             js.put("lastname", clients.getLastname() != null ? clients.getLastname() : "");

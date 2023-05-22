@@ -8,7 +8,7 @@ import {InputMask} from "primereact/inputmask";
 import {InputText} from "primereact/inputtext";
 import {selectFormByInfo} from "../slice/airSlise.jsx";
 import ky from "ky";
-
+const CONFIG_APP = import.meta.env
 
 const ByTicketForm = () => {
     const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const ByTicketForm = () => {
         if (form) {
             async function fetchData() {
                 await ky.delete('ticket/delete', {
-                    prefixUrl: 'http://localhost:8080', json:
+                    prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND, json:
                         {
                             "phone": form.tel,
                         }
@@ -47,13 +47,13 @@ const ByTicketForm = () => {
 
         async function fetchData() {
             await ky.post('ticket/create', {
-                prefixUrl: 'http://localhost:8080', json:
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND, json:
                     {
                         "id": null,
                         "idclient": null,
                         "idflight": ticket.id,
                         "seat_number": null,
-                        "status": 1,
+                        "status": "Создан",
                         "name": name,
                         "sename": serName,
                         "lastname": lastName,
@@ -116,7 +116,7 @@ const ByTicketForm = () => {
                             />
                             <InputMask value={tel}
                                        onChange={(e) => setTel(e.target.value)}
-                                       mask="+7(999) 999-9999" placeholder="Телефон*"
+                                       mask="+7(999)999-99-99" placeholder="Телефон*"
                                        required
                                        className="imp"
                             />

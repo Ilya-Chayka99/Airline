@@ -20,6 +20,7 @@ import {InputMask} from "primereact/inputmask";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {FilterMatchMode} from "primereact/api";
+import {Tag} from "primereact/tag";
 
 
 const Profile = () => {
@@ -34,10 +35,11 @@ const Profile = () => {
     const [lastname, setLastname] = useState('');
     const [serpass, setSerpass] = useState('');
     const [numderpass, setNumderpass] = useState('');
+    const [items, setItems] = useState([]);
     const navigate = useNavigate()
-    const location = useLocation()
     const dispatch = useDispatch()
     const CONFIG_APP = import.meta.env
+
 
     useEffect(() => {
         const cookies = new Cookies();
@@ -48,7 +50,6 @@ const Profile = () => {
                 prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
                 body: formData
             }).json())
-
         }
         refresh(cookies.get("token")).then(r => r)
     }, [])
@@ -58,6 +59,16 @@ const Profile = () => {
             dispatch(selectAuth(false))
             navigate('/')
         }
+
+        if (request?.client?.statusrole === 100) {
+            setItems([{label: 'Профиль', icon: 'pi pi-fw pi-home'}, {
+                label: 'Билеты',
+                icon: 'pi pi-fw pi-calendar'
+            }, {label: 'Админ', icon: 'pi pi-fw pi-pencil'}])
+        } else {
+            setItems([{label: 'Профиль', icon: 'pi pi-fw pi-home'}, {label: 'Билеты', icon: 'pi pi-fw pi-calendar'}])
+        }
+
 
     }, [request])
 
@@ -79,21 +90,17 @@ const Profile = () => {
         }).json()
     }
 
-    const items = [
-        {label: 'Профиль', icon: 'pi pi-fw pi-home'},
-        {label: 'Билеты', icon: 'pi pi-fw pi-calendar'},
-        {label: 'FAQ', icon: 'pi pi-fw pi-pencil'}
-    ];
+
     const items_left_profile = [
         {label: 'Информация', icon: <BsInfoCircleFill style={{marginRight: "10px", color: "white"}}/>},
         {label: 'Настройки', icon: <FiSettings style={{marginRight: "10px", color: "white"}}/>},
         {
             label: 'Выйти', icon: <BsPower style={{marginRight: "10px", color: "white"}}/>, command: () => {
-                // const cookies = new Cookies();
-                // cookies.remove('token')
-                // dispatch(selectAuth(false))
-                // if (location.pathname === '/profile' || location.pathname === '/admin')
-                //     navigate('/')
+                const cookies = new Cookies();
+                cookies.remove('token')
+                dispatch(selectAuth(false))
+                if (location.pathname === '/profile' || location.pathname === '/admin')
+                    navigate('/')
             }
         }
     ];
@@ -103,29 +110,37 @@ const Profile = () => {
         {label: 'Сдать билет', icon: <BsFillClipboardXFill style={{marginRight: "10px", color: "white"}}/>},
         {label: 'История', icon: <BiHistory style={{marginRight: "10px", color: "white"}}/>}
     ];
-    const items_left_Faq = [
-        {label: 'Информация', icon: <BsInfoCircleFill style={{marginRight: "10px", color: "white"}}/>},
-        {label: 'Настройки', icon: <FiSettings style={{marginRight: "10px", color: "white"}}/>},
-        {label: 'Выйти', icon: <BsPower style={{marginRight: "10px", color: "white"}}/>}
+
+    const items_admin = [
+        {label: 'Информация', icon: <BsInfoCircleFill style={{marginRight: "10px", color: "white"}}/>}
+
     ];
     useEffect(() => {
-        setActiveItems(activeIndex === 0 ? items_left_profile : (activeIndex === 1 ? items_left_ticket : items_left_Faq))
+        setActiveItems(activeIndex === 0 ? items_left_profile : (activeIndex === 1 ? items_left_ticket : items_admin))
     }, [activeIndex])
-    const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        'country.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        representative: { value: null, matchMode: FilterMatchMode.IN },
-        status: { value: null, matchMode: FilterMatchMode.EQUALS },
-        verified: { value: null, matchMode: FilterMatchMode.EQUALS }
-    });
-    const countryBodyTemplate = (rowData) => {
-        return (
-            <div className="flex align-items-center gap-2">
-                <span>{rowData.surname}</span>
-            </div>
-        );
+
+    const statusBodyTemplate = (rowData) => {
+        return <Tag value={rowData.status} severity={getSeverity(rowData.status)}/>;
     };
+    const getSeverity = (status) => {
+        switch (status) {
+            case "Отмена":
+                return 'danger';
+
+            case "Зарегистрирован":
+                return 'success';
+
+            case "Оплата":
+                return 'info';
+
+            case "Оформлен":
+                return 'warning';
+
+            case 'renewal':
+                return null;
+        }
+    };
+
     return (
         <>
             {request !== null &&
@@ -188,46 +203,27 @@ const Profile = () => {
                                         </div>
                                     </div>
                                 </div>) : (activeIndex_left === 1 ? (<form className="block-info form-edit-info">
-                                    <div className="email-profile">
-                                        <label htmlFor="123" style={{color: "white", textAlign: "left"}}>Серия</label>
-                                        <div className="group-upgrade">
-                                            <InputMask required value={serpass}
-                                                       onChange={(e) => setSerpass(e.target.value)}
-                                                       className="imput-email"
-                                                       mask="9999"/>
-                                        </div>
-                                    </div>
-                                    <div className="email-profile">
-                                        <label htmlFor="123" style={{color: "white", textAlign: "left"}}>Номер</label>
-                                        <div className="group-upgrade">
-                                            <InputMask required value={numderpass}
-                                                       onChange={(e) => setNumderpass(e.target.value)}
-                                                       className="imput-email" mask="999999"/>
-                                        </div>
-                                    </div>
-                                    <div className="email-profile">
-                                        <label htmlFor="123" style={{color: "white", textAlign: "left"}}>Имя</label>
-                                        <div className="group-upgrade">
-                                            <InputText required value={name} onChange={(e) => setName(e.target.value)}
-                                                       className="imput-email"/>
-                                        </div>
-                                    </div>
-                                    <div className="email-profile">
-                                        <label htmlFor="123" style={{color: "white", textAlign: "left"}}>Фамилия</label>
-                                        <div className="group-upgrade">
-                                            <InputText required value={sername}
-                                                       onChange={(e) => setSername(e.target.value)}
-                                                       className="imput-email"/>
-                                        </div>
-                                    </div>
-                                    <div className="email-profile">
-                                        <label htmlFor="123"
-                                               style={{color: "white", textAlign: "left"}}>Отчество</label>
-                                        <div className="group-upgrade">
-                                            <InputText value={lastname} onChange={(e) => setLastname(e.target.value)}
-                                                       className="imput-email"/>
-                                        </div>
-                                    </div>
+                                    <div className='payment-to-bananz-title'>Верификация</div>
+
+
+                                    <InputText style={{marginBottom: '30px', width: '645px'}} value={name} placeholder="Имя"
+                                               onChange={(e) => {
+                                                   setName(e.target.value)
+                                               }}/>
+                                    <InputText style={{marginBottom: '30px', width: '645px'}} value={sername} placeholder="Фамилия"
+                                               onChange={(e) => {
+                                                   setSername(e.target.value)
+                                               }}/>
+                                    <InputText style={{marginBottom: '30px', width: '645px'}} value={lastname} placeholder="Отчество"
+                                               onChange={(e) => {
+                                                   setLastname(e.target.value)
+                                               }}/>
+                                    <InputMask mask='9999' style={{marginBottom: '30px', width: '645px'}} placeholder="Серия паспорта"
+                                               value={serpass} onChange={(e) => setSerpass(e.target.value)}/>
+
+                                    <InputMask mask='999999' style={{marginBottom: '30px', width: '645px'}} placeholder="Номер паспорта"
+                                               value={numderpass} onChange={(e) => setNumderpass(e.target.value)}/>
+
                                     <button type='submit' onClick={(event) => {
                                         event.preventDefault()
                                         save().then(r => r)
@@ -238,13 +234,46 @@ const Profile = () => {
                             </div>}
                             <div>
                                 {activeIndex === 1 && <div className="profile-info-main">
-                                    {activeIndex_left === 0 ? (<div>
-                                        <DataTable value={request.tickets} paginator rows={10} dataKey="id" filters={filters} filterDisplay="row"
-                                                   globalFilterFields={['name', 'country.name', 'representative.name', 'status']}  emptyMessage="No customers found.">
-                                            <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
-                                            <Column header="sername" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate} filter filterPlaceholder="Search by country" />
+                                    {activeIndex_left === 3 ? (<div>
+                                        <DataTable value={request.tickets} paginator rows={8} dataKey="id"
+                                                   filterDisplay="row"
+                                                   emptyMessage="Билетов не найдено.">
+                                            <Column field="name" header="Имя" style={{minWidth: '12rem'}}/>
+                                            <Column field="sename" header="Фамилия" style={{minWidth: '12rem'}}/>
+                                            <Column field="lastname" header="Отчество" filterField="lastname"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="serial" header="Номер билета" filterField="serial"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="email" header="Почта" filterField="email"
+                                                    style={{minWidth: '15rem'}}/>
+                                            <Column field="seat_number" header="Номер места"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="date_registration" header="Дата регистрации"
+                                                    style={{minWidth: '20rem'}}/>
+                                            <Column field="status" header="Статус" filterField="status"
+                                                    style={{minWidth: '12rem'}} body={statusBodyTemplate}/>
                                         </DataTable>
-                                    </div>) : (<div></div>)
+                                    </div>) : (activeIndex_left === 0 ? (<div>
+                                        <DataTable value={request.tickets.filter(e => {
+                                            return (e.status === "Оформлен" || e.status === "Зарегистрирован")
+                                        })} paginator rows={8} dataKey="id" filterDisplay="row"
+                                                   emptyMessage="Билетов не найдено.">
+                                            <Column field="name" header="Имя" style={{minWidth: '12rem'}}/>
+                                            <Column field="sename" header="Фамилия" style={{minWidth: '12rem'}}/>
+                                            <Column field="lastname" header="Отчество" filterField="lastname"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="serial" header="Номер билета" filterField="serial"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="email" header="Почта" filterField="email"
+                                                    style={{minWidth: '15rem'}}/>
+                                            <Column field="seat_number" header="Номер места"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="date_registration" header="Дата регистрации"
+                                                    style={{minWidth: '20rem'}}/>
+                                            <Column field="status" header="Статус" filterField="status"
+                                                    style={{minWidth: '12rem'}} body={statusBodyTemplate}/>
+                                        </DataTable>
+                                    </div>) : <div></div>)
                                     } </div>}
                             </div>
 

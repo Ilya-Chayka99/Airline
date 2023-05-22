@@ -5,6 +5,7 @@ import com.example.airline.Entity.Ticket;
 import com.example.airline.Service.TicketService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,33 +25,40 @@ public class TicketController  {
 
     @CrossOrigin
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Ticket>> list(){
         return ResponseEntity.ok().body(ticketService.list());
     }
     @CrossOrigin
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "create")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> create(@RequestBody Ticket t){
-        if(ticketService.save(t))
-            return ResponseEntity.ok().body("{\"massage\":\"OK\"}");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ошибка создания Билета");
+        JSONObject jsonObject = new JSONObject();
+        if(ticketService.save(t)){
+            jsonObject.put("status","OK");
+            return ResponseEntity.ok().body(jsonObject.toString());
+        }
+        jsonObject.put("status","err");
+        jsonObject.put("massage","Ошибка создания Билета: На данный рейс закончились места!");
+        return ResponseEntity.ok().body(jsonObject.toString());
     }
     @CrossOrigin
     @PutMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "update")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> put(@RequestBody Ticket t){
         if(ticketService.update(t))
             return ResponseEntity.ok().body("{\"massage\":\"OK\"}");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найден данный билет");
+        return ResponseEntity.ok().body("Не найден данный билет");
     }
     @CrossOrigin
     @DeleteMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "delete")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> delete(@RequestBody Ticket t){
-        if(ticketService.delete(t))
-            return ResponseEntity.ok().body("{\"massage\":\"OK\"}");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ошибка удаления билета");
+        JSONObject jsonObject = new JSONObject();
+        if(ticketService.delete(t)){
+            jsonObject.put("status","OK");
+            return ResponseEntity.ok().body(jsonObject.toString());
+        }
+        jsonObject.put("status","err");
+        jsonObject.put("massage","Ошибка удаления Билета: Билет не найден!");
+        return ResponseEntity.ok().body(jsonObject.toString());
     }
     @CrossOrigin
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "search")
@@ -67,9 +75,17 @@ public class TicketController  {
     }
     @CrossOrigin
     @PostMapping(path = "seat")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<String>> list(@RequestParam("id")Long id){
         return ResponseEntity.ok().body(ticketService.seat(id));
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "setinfoticketseat")
+    public ResponseEntity<String> setinfoticketseat(@RequestParam("phone")String phone,
+                                                          @RequestParam("status")String status,
+                                                          @RequestParam("seat_number")String seat,
+                                                          @RequestParam("serial")String serial){
+        return ResponseEntity.ok().body(ticketService.setinfoticketseat(phone,status,seat,serial).toString());
     }
 
 }

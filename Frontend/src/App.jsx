@@ -44,6 +44,7 @@ function App() {
                 <Route path='/selectticket' element={<AppBanner/>}/>
                 <Route path='/methodopl' element={<AppBanner/>}/>
                 <Route path='/success' element={<AppBanner/>}/>
+                <Route path='/profile' element={<AppBanner/>}/>
             </Routes>
             <Futter/>
         </>

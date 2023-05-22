@@ -3,7 +3,7 @@ import ky from "ky";
 import {v4 as uuv4} from "uuid";
 import CardT from "../Card/Card.jsx";
 import Select from "../Select/Select.jsx";
-
+const CONFIG_APP = import.meta.env
 
 const RegisterList = () => {
     const [fl, setFl] = useState([]);
@@ -20,13 +20,13 @@ const RegisterList = () => {
         }
 
         async function fetchData() {
-            f(await ky('Flights', {prefixUrl: 'http://localhost:8080'}).json())
+            f(await ky('Flights', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND}).json())
         }
 
         fetchData().then(r => r)
 
         async function fetchData1() {
-            setAir(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json())
+            setAir(await ky('Airport', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND}).json())
         }
 
         fetchData1().then(r => r)

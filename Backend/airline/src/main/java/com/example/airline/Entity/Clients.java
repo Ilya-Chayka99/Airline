@@ -26,4 +26,5 @@ public class Clients {
     private String serpass;
     private String numberpass;
     private String password;
+    private Long statusrole;
 }
