@@ -13,7 +13,6 @@ const TicketList=()=>{
     const selectOutput = useSelector(state => state.air.selectOutput)
     const selectInput = useSelector(state => state.air.selectInput)
     const dateOutput = useSelector(state => state.air.dateOutput)
-    const dateInput = useSelector(state => state.air.dateInput)
     useEffect(()=>{
         if(dateOutput==null) navigate("/")
     },[])
@@ -29,18 +28,18 @@ const TicketList=()=>{
     return(
         <>
             <section className="ticketlist" key={uuv4()}>
-                <h2>Рейсы из {selectOutput.name} в {selectInput.name} на {new Date(dateOutput)?.getDate()+" "}
+                <h2>Рейсы из {selectOutput.name} в {selectInput.name} на {new Date(dateOutput)?.getDate() + " "}
                     {new Date(dateOutput)?.toLocaleString('default', {month: 'long'})}</h2>
-                 <div className="list" key={uuv4()}>
-                     {
+                <div className="list" key={uuv4()}>
+                    {
                         ticket.filter(x => x.id_v === selectOutput.id && x.id_p === selectInput.id && new Date(x.date_v).getDate() === new Date(dateOutput)?.getDate())
-                            .sort((x,y)=>new Date(x.time_v).getHours()-new Date(y.time_v).getHours())
+                            .sort((x, y) => new Date(x.time_v).getHours() - new Date(y.time_v).getHours())
                             .map(x => (
                                 // eslint-disable-next-line react/jsx-key
                                 <CardT x={x}/>
                             ))
                     }
-                    </div>
+                </div>
             </section>
         </>
     )

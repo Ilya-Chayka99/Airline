@@ -78,6 +78,12 @@ public class TicketController  {
     public ResponseEntity<List<String>> list(@RequestParam("id")Long id){
         return ResponseEntity.ok().body(ticketService.seat(id));
     }
+    @CrossOrigin
+    @PostMapping(path = "refund")
+    public ResponseEntity<String> refund(@RequestParam("id")Long id){
+        ticketService.refund(id);
+        return ResponseEntity.ok().body("");
+    }
 
     @CrossOrigin
     @PostMapping(path = "setinfoticketseat")

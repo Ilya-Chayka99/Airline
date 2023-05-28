@@ -9,7 +9,8 @@ const initialState = {
     formByInfo: null,
     auth:false,
     phone:'',
-    count:0
+    count:0,
+    numberTicket:null
 
 };
 const airSlice = createSlice({
@@ -36,6 +37,9 @@ const airSlice = createSlice({
         },
         selectCount:(state, action) => {
             state.count = state.count +1;
+        },
+        selectNumberTicket:(state, action) => {
+            state.numberTicket = action.payload;
         }
 
 
@@ -52,5 +56,6 @@ export const {
     selectFormByInfo,
     selectAuth,
     selectPhone,
-    selectCount
+    selectCount,
+    selectNumberTicket
 } = actions;

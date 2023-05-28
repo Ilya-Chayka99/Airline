@@ -42,6 +42,7 @@ public class InfoServise {
             js.put("lastname", clients.getLastname() != null ? clients.getLastname() : "");
             js.put("email", clients.getEmail() != null ? clients.getEmail() : "");
             js.put("phone", clients.getPhone() != null ? clients.getPhone() : "");
+            js.put("datero", clients.getDatero());
             js.put("serpass", maskString(clients.getSerpass(), 1));
             js.put("numberpass", maskString(clients.getNumberpass(), 2));
             js.put("password", maskString(clients.getPassword(), 2));

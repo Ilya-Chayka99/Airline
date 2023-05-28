@@ -110,6 +110,11 @@ public class TicketService {
         }
         return str;
     }
+    public void refund(Long id){
+       Ticket ticket= ticketRepo.findById(id).get();
+       ticket.setStatus("Отмена");
+       ticketRepo.save(ticket);
+    }
 
     public Object setinfoticketseat(String phone, String status, String seat, String serial) {
         JSONObject jsonObject = new JSONObject();

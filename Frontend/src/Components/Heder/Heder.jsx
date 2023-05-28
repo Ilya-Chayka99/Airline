@@ -119,12 +119,6 @@ const Heder = () => {
                 navigate("/profile")
             }
         },
-        {
-            label: 'Настройки', icon: <BsPersonGear style={{marginRight: "10px"}}/>,
-            command: () => {
-
-            }
-        },
         {separator: true},
         {
             template: () => {

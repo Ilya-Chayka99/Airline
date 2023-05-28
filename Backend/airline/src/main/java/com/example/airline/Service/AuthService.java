@@ -34,6 +34,7 @@ public class AuthService {
         }
         clients1.setPhone(phone);
         clients1.setPassword(password);
+        clients1.setStatusrole(0L);
         clientsRepo.save(clients1);
         List<Clients> client = clientsRepo.findByPhone(phone);
         return client.get(0).getId();

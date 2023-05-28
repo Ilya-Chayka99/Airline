@@ -4,14 +4,16 @@ import {useEffect, useState} from "react";
 import err from './img/Error.png'
 import info from './img/info.png'
 import {useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ky from "ky";
+import {selectNumberTicket} from "../slice/airSlise.jsx";
 const CONFIG_APP = import.meta.env
 
 const MethodOpl = ()=>{
     const [activeIndex, setActiveIndex] = useState(0);
     const [ticket,setTicket] =useState(useSelector(state => state.air.byTicket))
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const form = useSelector(state => state.air.formByInfo)
     useEffect(()=>{
         if(ticket==null) navigate("/")
@@ -45,12 +47,14 @@ const MethodOpl = ()=>{
                 formData.append('seat_number', null)
                 formData.append('status', "Оформлен")
                 formData.append('serial', "")
-                await ky.post('ticket/setinfoticketseat', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:
+                const serial = await ky.post('ticket/setinfoticketseat', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:
                       formData
                 }).json().catch(err=>console.log(err))
+                dispatch(selectNumberTicket(serial))
             }
             fetchData().then(r => r)
-        navigate("/success")
+        setTimeout(()=>{navigate("/success")},2000)
+
 
     }
     return(

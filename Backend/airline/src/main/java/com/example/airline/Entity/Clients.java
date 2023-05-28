@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,7 @@ public class Clients {
     private String name;
     private String surname;
     private String lastname;
+    private Date datero;
     private String email;
     private String phone;
     private String serpass;

@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {TabMenu} from "primereact/tabmenu";
 import './Profile.css'
 import {
@@ -11,25 +11,25 @@ import {
 import {BiHistory, FiSettings} from "react-icons/all.js";
 import Cookies from "universal-cookie";
 import {selectAuth} from "../slice/airSlise.jsx";
-import {useDispatch, useSelector} from "react-redux";
-import {json, useLocation, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
 import ky from "ky";
-import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
 import {InputMask} from "primereact/inputmask";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
-import {FilterMatchMode} from "primereact/api";
 import {Tag} from "primereact/tag";
 import {Toast} from "primereact/toast";
+import {Dropdown} from "primereact/dropdown";
 
 
 const Profile = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [valueEmail, setValueEmail] = useState('');
+    const [vTicket, setVTicket] = useState('');
     const [activeIndex_left, setActiveIndex_left] = useState(0);
     const [activeItems, setActiveItems] = useState([]);
     const [request, setRequest] = useState(null);
+    const [datero, setDatero] = useState(null);
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [sername, setSername] = useState('');
@@ -51,6 +51,7 @@ const Profile = () => {
                 prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
                 body: formData
             }).json())
+
         }
         refresh(cookies.get("token")).then(r => r)
     }, [])
@@ -74,7 +75,7 @@ const Profile = () => {
     }, [request])
 
     const save = async () => {
-        if (name === '' || sername === '' || serpass === '' || numderpass === '') {
+        if (name === '' || sername === '' || serpass === '' || numderpass === '' || email === '' || datero===null) {
             toast.current.show({
                 severity: 'error',
                 summary: 'Ошибка',
@@ -91,6 +92,8 @@ const Profile = () => {
             a.surname = sername
             a.serpass = serpass
             a.numberpass = numderpass
+            a.email = email
+            a.datero = datero
             formData.append('client', a)
             console.log(a)
             await ky.post(`info/save`, {
@@ -152,7 +155,40 @@ const Profile = () => {
                 return null;
         }
     };
+    const selectedCountryTemplate = (option, props) => {
+        if (option) {
+            return (
+                <div className="flex align-items-center">
+                    <div>{option.serial}</div>
+                </div>
+            );
+        }
+        return <span>{props.placeholder}</span>;
+    };
+    const countryOptionTemplate = (option) => {
+        return (
+            <div className="flex align-items-center">
+                <div>{option.serial}</div>
+            </div>
+        );
+    };
+    const vozvrat = async ()=>{
+        if(vTicket!==''){
+            const formData = new FormData();
+            formData.append('id', vTicket.id)
+            await ky.post(`ticket/refund`, {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                body: formData
+            }).json()
+            toast.current.show({
+                severity: 'info',
+                summary: 'Вы успешно сдали билет.',
+                detail: 'Деньги за билет поступят в течении нескольких дней!',
+                life: 3000
+            });
+        }
 
+    }
     return (
         <>
             <Toast ref={toast}/>
@@ -179,9 +215,9 @@ const Profile = () => {
                                             </div>
                                             <div className="profile-info-name">
                                                 <span>Дата рождения</span>
-                                                <span>{new Date(request?.tickets[0]?.datero).getDate() + ":" +
-                                                    (new Date(request?.tickets[0]?.datero).getMonth() + 1) + ":" +
-                                                    new Date(request?.tickets[0]?.datero).getFullYear()}</span>
+                                                <span>{new Date(request?.client?.datero).getDate() + ":" +
+                                                    (new Date(request?.client?.datero).getMonth() + 1) + ":" +
+                                                    new Date(request?.client?.datero).getFullYear()}</span>
                                             </div>
                                             <div className="profile-info-name">
                                                 <span>Паспорт</span>
@@ -195,25 +231,6 @@ const Profile = () => {
                                                 <button onClick={() => setActiveIndex_left(1)}>Изменить данные</button>
                                             </div>
                                         </div>
-                                        <div className="info-block2 back">
-                                            <div className="email-profile">
-                                                <label htmlFor="123" style={{
-                                                    color: "white",
-                                                    textAlign: "left"
-                                                }}>{email === '' ? request.client.email : email}</label>
-                                                <div className="email-group">
-                                                    <InputText required value={valueEmail}
-                                                               onChange={(e) => setValueEmail(e.target.value)}
-                                                               className="imput-email"/>
-                                                    <button onClick={() => {
-                                                        setEmail(valueEmail)
-
-                                                    }}>Изменить
-                                                    </button>
-                                                </div>
-
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>) : (activeIndex_left === 1 ? ((request?.client?.name === null || request?.client?.name === '') ?
                                     <form className="block-info form-edit-info">
@@ -224,7 +241,6 @@ const Profile = () => {
                                                        placeholder="Имя*"
                                                        onChange={(e) => {
                                                            setName(e.target.value)
-
                                                        }}/>
                                             <InputText style={{marginBottom: '30px', width: '645px'}} value={sername}
                                                        placeholder="Фамилия*"
@@ -236,6 +252,11 @@ const Profile = () => {
                                                        onChange={(e) => {
                                                            setLastname(e.target.value)
                                                        }}/>
+                                            <InputText style={{marginBottom: '30px', width: '645px'}} value={email}
+                                                       placeholder="email*"
+                                                       onChange={(e) => {
+                                                           setEmail(e.target.value)
+                                                       }}/>
                                             <InputMask mask='9999' style={{marginBottom: '30px', width: '645px'}}
                                                        placeholder="Серия паспорта*"
                                                        value={serpass} onChange={(e) => setSerpass(e.target.value)}/>
@@ -244,16 +265,21 @@ const Profile = () => {
                                                        placeholder="Номер паспорта*"
                                                        value={numderpass}
                                                        onChange={(e) => setNumderpass(e.target.value)}/>
+                                            <InputMask mask='9999-99-99' style={{marginBottom: '30px', width: '645px'}}
+                                                       placeholder="Дата рождения*"
+                                                       value={datero}
+                                                       onChange={(e) => setDatero(e.target.value)}/>
                                         </div>
 
 
                                         <button type='submit' onClick={(event) => {
                                             event.preventDefault()
                                             save().then(r => r)
-                                            setEmail(valueEmail)
                                         }} className="btn-save">Сохранить
                                         </button>
-                                    </form> : <div style={{color:"white",fontFamily:"'Open Sans', sans-serif"}} >Вы уже заполнили данные аккаунта,
+                                    </form> :
+                                    <div style={{color: "white", fontFamily: "'Open Sans', sans-serif"}}>Вы уже
+                                        заполнили данные аккаунта,
                                         если вам необходимо сменить данные то обратитесь к
                                         администратору!</div>) : (<div></div>))}
                             </div>}
@@ -298,7 +324,36 @@ const Profile = () => {
                                             <Column field="status" header="Статус" filterField="status"
                                                     style={{minWidth: '12rem'}} body={statusBodyTemplate}/>
                                         </DataTable>
-                                    </div>) : <div></div>)
+                                    </div>) :(activeIndex_left === 1 ? (<div>
+                                        <DataTable value={request.tickets.filter(e => {
+                                            return (e.status === "Вылетел")
+                                        })} paginator rows={8} dataKey="id" filterDisplay="row"
+                                                   emptyMessage="Билетов не найдено.">
+                                            <Column field="name" header="Имя" style={{minWidth: '12rem'}}/>
+                                            <Column field="sename" header="Фамилия" style={{minWidth: '12rem'}}/>
+                                            <Column field="lastname" header="Отчество" filterField="lastname"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="serial" header="Номер билета" filterField="serial"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="email" header="Почта" filterField="email"
+                                                    style={{minWidth: '15rem'}}/>
+                                            <Column field="seat_number" header="Номер места"
+                                                    style={{minWidth: '12rem'}}/>
+                                            <Column field="date_registration" header="Дата регистрации"
+                                                    style={{minWidth: '20rem'}}/>
+                                            <Column field="status" header="Статус" filterField="status"
+                                                    style={{minWidth: '12rem'}} body={statusBodyTemplate}/>
+                                        </DataTable>
+                                    </div>) : (activeIndex_left === 2 ? (<div>
+                                        <Dropdown value={vTicket} onChange={(e) => setVTicket(e.value)}
+                                                  options={request?.tickets?.filter(e => {
+                                                      return (e.status === "Оформлен" || e.status === "Зарегистрирован")
+                                                  })} optionLabel="serial"
+                                                  placeholder="Выбрать билет"
+                                                  filter valueTemplate={selectedCountryTemplate}
+                                                  itemTemplate={countryOptionTemplate} className="w-full md:w-14rem"/>
+                                        <button className="btn-save" style={{backgroundColor:"green"}} onClick={vozvrat} >Сдать билет</button>
+                                    </div>) : <div></div>)))
                                     } </div>}
                             </div>
 
