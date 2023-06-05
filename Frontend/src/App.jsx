@@ -11,10 +11,21 @@ import SuccessOplP from "./Components/Page/SuccessOplP.jsx";
 import RegisterList from "./Components/Page/RegisterList.jsx";
 import RegisterR from "./Components/RegisterR/RegisterR.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
+import {useEffect} from "react";
+import ky from "ky";
+import {useDispatch} from "react-redux";
+import {setCity} from "./Components/slice/airSlise.jsx";
 
 
 
 function App() {
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        async function fetchData() {
+            dispatch(setCity(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json()))
+        }
+        fetchData().then(r => r)
+    },[])
     return (
         <>
             <div className="str">

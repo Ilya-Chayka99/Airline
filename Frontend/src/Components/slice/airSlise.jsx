@@ -10,7 +10,8 @@ const initialState = {
     auth:false,
     phone:'',
     count:0,
-    numberTicket:null
+    numberTicket:null,
+    city:null
 
 };
 const airSlice = createSlice({
@@ -40,6 +41,9 @@ const airSlice = createSlice({
         },
         selectNumberTicket:(state, action) => {
             state.numberTicket = action.payload;
+        },
+        setCity:(state, action) => {
+            state.city = action.payload;
         }
 
 
@@ -57,5 +61,6 @@ export const {
     selectAuth,
     selectPhone,
     selectCount,
-    selectNumberTicket
+    selectNumberTicket,
+    setCity
 } = actions;

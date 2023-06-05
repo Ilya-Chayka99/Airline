@@ -14,7 +14,7 @@ import {Dropdown} from "primereact/dropdown";
 
 const Select = ({reg, setDate, setG_p, setG_v}) => {
     const dispatch = useDispatch();
-    const [city, setCity] = useState([])
+    const [city,setCity] = useState([])
     const [selectOutput, setSelectOutput] = useState(useSelector(state => state.air.selectOutput))
     const [selectInput, setSelectInput] = useState(useSelector(state => state.air.selectInput))
     const [dateOutput, setDateOutput] = useState(useSelector(state => state.air.dateOutput));
@@ -31,7 +31,6 @@ const Select = ({reg, setDate, setG_p, setG_v}) => {
         async function fetchData() {
             setCity(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json())
         }
-
         fetchData().then(r => r)
         if (reg) {
             setSelectOutput(null)
@@ -73,7 +72,7 @@ const Select = ({reg, setDate, setG_p, setG_v}) => {
             </div>
         );
     };
-    return (
+    return ( city &&
         <form className="cont" onSubmit={sub}>
             <Dropdown value={selectOutput} onChange={(e) => setSelectOutput(e.value)}
                       options={city} optionLabel="name"
