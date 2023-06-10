@@ -2,7 +2,6 @@ package com.example.airline.Controllers;
 
 
 import com.example.airline.Entity.Airport;
-import com.example.airline.Repository.AirportRepo;
 import com.example.airline.Service.AirportService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -75,6 +75,9 @@ public class TicketService {
     public List<Ticket> list() {
         return ticketRepo.findAll();
     }
+    public Optional<Ticket> listID(Long id) {
+        return ticketRepo.findById(id);
+    }
 
     public boolean delete(Ticket t) {
         List<Ticket> tickets = ticketRepo.findByPhone(t.getPhone());

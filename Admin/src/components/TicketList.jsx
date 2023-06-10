@@ -7,15 +7,14 @@ export const TicketList = () => (
     <List>
         <Datagrid>
             <TextField source="id" />
-            <TextField source="id_client" />
-            <DateField source="id_flight" />
+            <TextField source="idclient" />
+            <TextField source="idflight" />
             <DateField  source="date_registration" />
             <TextField source="seat_number" />
             <TextField source="status" />
             <TextField source="name" />
             <TextField source="sename" />
             <TextField source="lastname" />
-            <DateField  source="datero" />
             <EditButton />
         </Datagrid>
     </List>

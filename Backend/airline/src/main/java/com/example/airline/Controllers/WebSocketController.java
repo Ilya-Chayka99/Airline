@@ -12,14 +12,11 @@ public class WebSocketController {
     @MessageMapping("/message")
     @SendTo("/seat/public")
     private String receivePublicMessage(@Payload String message){
-        System.out.println(message);
         return message;
     }
 
     @MessageMapping("/private-message")
     public String  receivePrivateMessage(@Payload String message){
-
-
         return message;
     }
 

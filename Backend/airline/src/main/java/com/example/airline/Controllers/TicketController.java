@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -27,6 +28,13 @@ public class TicketController  {
     @GetMapping
     public ResponseEntity<List<Ticket>> list(){
         return ResponseEntity.ok().body(ticketService.list());
+    }
+
+    @CrossOrigin
+    @GetMapping(path = "{id}")
+    public ResponseEntity<Optional<Ticket>> listID(@PathVariable Long id){
+        System.out.println(id);
+        return ResponseEntity.ok().body(ticketService.listID(id));
     }
     @CrossOrigin
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE,path = "create")
