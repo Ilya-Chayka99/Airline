@@ -1,4 +1,4 @@
-package com.example.airline.Controllers;
+package com.example.airline.Controllers.RestControllers;
 
 import com.example.airline.Entity.Flights;
 import com.example.airline.Entity.Ticket;

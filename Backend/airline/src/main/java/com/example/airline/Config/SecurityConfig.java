@@ -1,6 +1,7 @@
-package com.example.airline;
+package com.example.airline.Config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,16 +21,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         successHandler.setDefaultTargetUrl("/");
 
         http.authorizeRequests()
-                .antMatchers("/assets/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/Airport").permitAll()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/instances").permitAll()
+                .antMatchers("/Flights").permitAll()
+                .antMatchers("/indexx").permitAll()
                 .antMatchers("/ticket/**").permitAll()
                 .antMatchers("/info/**").permitAll()
-                .antMatchers("/Flights").permitAll()
-                .antMatchers("/instances").permitAll()
+                .antMatchers("/assets/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated().and()
+                .cors().and()
                 .formLogin().loginPage("/login")
                 .successHandler(successHandler).and()
                 .logout().logoutUrl("/logout").and()

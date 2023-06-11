@@ -1,4 +1,4 @@
-package com.example.airline.Controllers;
+package com.example.airline.Controllers.RestControllers;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;

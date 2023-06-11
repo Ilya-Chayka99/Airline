@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <span>Hello!!!!!</span>
+
+<p th:text="${user}"></p>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>perelet</th>
+        <th>name</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="use : ${user}">
+    <tr>
+        <td>[[${use.id}]]</td>
+        <td>[[${use.perelet}]]</td>
+        <td>[[${use.name}]]</td>
+        <td>
+            <a href="#">Изменить</a>
+            <a href="#">Удалить</a>
+        </td>
+    </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

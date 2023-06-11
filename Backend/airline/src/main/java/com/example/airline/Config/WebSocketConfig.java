@@ -1,4 +1,4 @@
-package com.example.airline;
+package com.example.airline.Config;
 
 import com.example.airline.ws.WSUserHandler;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.example.airline.Controllers;
+package com.example.airline.Controllers.RestControllers;
 
 import com.example.airline.Entity.Ticket;
 import com.example.airline.Service.AuthService;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor

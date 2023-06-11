@@ -1,8 +1,8 @@
-package com.example.airline.Controllers;
+package com.example.airline.Controllers.RestControllers;
+
 
 import com.example.airline.Entity.Airport;
-import com.example.airline.Entity.Flights;
-import com.example.airline.Service.FlightsService;
+import com.example.airline.Service.AirportService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +14,13 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class FlightsController {
+public class AirportController {
     @Autowired
-    private FlightsService flightsService;
+    private AirportService airportService;
 
     @CrossOrigin
-    @GetMapping(path = "Flights")
-    public ResponseEntity<List<Flights>> list(){
-        return ResponseEntity.ok().body(flightsService.getAll());
+    @GetMapping(path = "Airport")
+    public ResponseEntity<List<Airport>> list(){
+        return ResponseEntity.ok().body(airportService.getAll());
     }
 }

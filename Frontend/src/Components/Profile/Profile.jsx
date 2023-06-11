@@ -62,15 +62,7 @@ const Profile = () => {
             navigate('/')
         }
 
-        if (request?.client?.statusrole === 100) {
-            setItems([{label: 'Профиль', icon: 'pi pi-fw pi-home'}, {
-                label: 'Билеты',
-                icon: 'pi pi-fw pi-calendar'
-            }, {label: 'Админ', icon: 'pi pi-fw pi-pencil'}])
-        } else {
-            setItems([{label: 'Профиль', icon: 'pi pi-fw pi-home'}, {label: 'Билеты', icon: 'pi pi-fw pi-calendar'}])
-        }
-
+        setItems([{label: 'Профиль', icon: 'pi pi-fw pi-home'}, {label: 'Билеты', icon: 'pi pi-fw pi-calendar'}])
 
     }, [request])
 
