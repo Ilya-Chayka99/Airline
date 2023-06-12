@@ -21,16 +21,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         successHandler.setDefaultTargetUrl("/");
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/Airport").permitAll()
-                .antMatchers("/instances").permitAll()
-                .antMatchers("/Flights").permitAll()
-                .antMatchers("/indexx").permitAll()
-                .antMatchers("/ticket/**").permitAll()
-                .antMatchers("/info/**").permitAll()
-                .antMatchers("/assets/**").permitAll()
-                .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/login", "/Airport",
+                        "/instances", "/indexx",
+                        "/ticket/**", "/info/**",
+                        "/assets/**", "/actuator/**","/auth/**").permitAll()
                 .anyRequest().authenticated().and()
                 .cors().and()
                 .formLogin().loginPage("/login")
@@ -38,10 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl("/logout").and()
                 .httpBasic().and()
                 .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers(
-                        "/instances",
-                        "/actuator/**","/"
-                );
+                .disable();
     }
 }
