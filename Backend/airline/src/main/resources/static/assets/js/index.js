@@ -75,6 +75,7 @@ $(function() {
 		series: [{
 			name: "Customers",
 			data: [240, 160, 671, 414, 555, 257, 901, 613, 727, 414, 555, 257]
+
 		}],
 		chart: {
 			type: "line",

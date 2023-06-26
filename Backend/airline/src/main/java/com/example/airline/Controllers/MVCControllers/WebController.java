@@ -2,6 +2,8 @@ package com.example.airline.Controllers.MVCControllers;
 
 import com.example.airline.Entity.Airport;
 import com.example.airline.Repository.AirportRepo;
+import com.example.airline.Repository.ClientsRepo;
+import com.example.airline.Repository.FlightsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WebController {
     @Autowired
     private AirportRepo airportRepo;
+    @Autowired
+    private FlightsRepo flightsRepo;
+    @Autowired
+    private ClientsRepo clientsRepo;
 
     @GetMapping("main")
     public String index(Model model){
-        model.addAttribute("user",airportRepo.findAll());
+        Integer[] A = {0, 1000, 10, 239};
+        model.addAttribute("user",A);
         return "main";
     }
-    @GetMapping("indexx")
-    public String indexx(Model model){
-        model.addAttribute("user",airportRepo.findAll());
-        return "indexx";
+    @GetMapping("tableinfo")
+    public String tableinfo(Model model){
+        model.addAttribute("flight",flightsRepo.findAll());
+        model.addAttribute("air",airportRepo.findAll());
+        model.addAttribute("clients",clientsRepo.findAll());
+        return "table-datatable";
     }
 }
