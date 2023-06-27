@@ -3,6 +3,7 @@ package com.example.airline.Controllers.MVCControllers;
 import com.example.airline.Entity.Airport;
 import com.example.airline.Entity.Flights;
 import com.example.airline.Entity.FlightsForm;
+import com.example.airline.Entity.Ticket;
 import com.example.airline.Repository.AirportRepo;
 import com.example.airline.Repository.ClientsRepo;
 import com.example.airline.Repository.FlightsRepo;
@@ -10,10 +11,7 @@ import com.example.airline.Repository.TicketRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -22,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -64,6 +63,18 @@ public class WebController {
         model.addAttribute("air",airportRepo.findAll());
         model.addAttribute("flights",new FlightsForm());
         return "form-elements";
+    }
+    @GetMapping("close/{id}")
+    public String close(@PathVariable Long id){
+        Flights flights =flightsRepo.findById(id).get();
+        flights.setStatus("Отменен");
+        flightsRepo.save(flights);
+        List<Ticket> list = ticketRepo.findByIdflight(id);
+        for(Ticket ticket:list){
+            ticket.setStatus("Отмена");
+            ticketRepo.save(ticket);
+        }
+        return "redirect:/admin/tableinfo";
     }
 
     @PostMapping("createF")

@@ -123,7 +123,8 @@ public class TicketService {
         JSONObject jsonObject = new JSONObject();
         String alf = "qwertyuopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
         if(phone!=null && !phone.equals("null")){
-            Ticket ticket = ticketRepo.findByPhone(phone).get(ticketRepo.findByPhone(phone).size()-1);
+            List<Ticket> ticket1 = ticketRepo.findByPhone(phone);
+            Ticket ticket = ticket1.stream().filter(x-> Objects.equals(x.getStatus(), "Создан")).toList().get(0);
             ticket.setStatus(status);
             String str = StringUtil.generateStringWithAlphabet(alf, 3)+"-"
                     + StringUtil.generateStringWithAlphabet(alf, 3)+"-"

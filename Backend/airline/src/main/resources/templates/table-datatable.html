@@ -195,7 +195,7 @@
 				<td>${value.aviacompani}</td>
 				<td>${value.money}</td>
 				<td>
-					${(value.status==="Регистрация" || value.status==="Продажа")?`<button type="button" class="btn btn-danger px-5" id=${value.id}><a href="/admin/main">Отменить</a></button>`:""}
+					${(value.status==="Регистрация" || value.status==="Продажа")?`<button type="button" class="btn btn-danger px-5" id=${value.id}><a href="/admin/close/${value.id}">Отменить</a></button>`:""}
 				</td>
 			</tr>`
 		})
