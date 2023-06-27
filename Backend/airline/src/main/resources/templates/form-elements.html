@@ -93,42 +93,36 @@
 						<hr/>
 						<div class="card">
 							<div class="card-body">
-								<form th:action="@{createF}" method="post" th:object="${flights}">
+								<form action="#" th:action="@{createF}" th:method="post" th:object="${flights}">
 										<label for="exampleDataList" class="form-label">Город вылета</label>
-										<input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Нажмите чтобы найти..." >
+										<input th:field="*{vil}" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Нажмите чтобы найти..." >
 										<datalist id="datalistOptions">
-											<option value="San Francisco">
-											<option value="New York">
-											<option value="Seattle">
-											<option value="Los Angeles">
-											<option value="Chicago">
 										</datalist>
 										<label for="exampleDataList" class="form-label">Город прилета</label>
-										<input class="form-control" list="datalistOptions" id="exampleDataList2" placeholder="Нажмите чтобы найти...">
+										<input th:field="*{pril}" class="form-control" list="datalistOptions2" id="exampleDataList2" placeholder="Нажмите чтобы найти...">
 										<datalist id="datalistOptions2">
-											<option value="San Francisco">
-											<option value="New York">
-											<option value="Seattle">
-											<option value="Los Angeles">
-											<option value="Chicago">
 										</datalist>
 									<div class="mb-3">
 										<label class="form-label">Дата: вылета</label>
-										<input type="date" class="form-control">
+										<input th:field="*{date_v}" type="date" class="form-control">
+									</div>
+									<div class="mb-3">
+										<label class="form-label">Авиокомпания</label>
+										<input th:field="*{aviacompani}" type="text" class="form-control">
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Дата: прилета</label>
-										<input type="date" class="form-control">
+										<input th:field="*{date_p}" type="date" class="form-control">
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Время: вылета</label>
-										<input type="time" class="form-control">
+										<input th:field="*{time_v}" type="time" class="form-control">
 									</div>
 									<div class="mb-3">
 										<label class="form-label">Время: прилета</label>
-										<input type="time" class="form-control">
+										<input th:field="*{time_p}" type="time" class="form-control">
 									</div>
-									<input class="form-control mb-3" type="text" placeholder="Стоимость" aria-label="default input example">
+									<input th:field="*{money}" class="form-control mb-3" type="text" placeholder="Стоимость" aria-label="default input example">
 									<button type="submit" class="btn btn-outline-warning px-5 radius-30">Создать</button>
 								</form>
 							</div>
@@ -158,6 +152,18 @@
 	<script src="../static/assets/plugins/metismenu/js/metisMenu.min.js"></script>
 	<script src="../static/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 	<!--app JS-->
+	<script th:inline="javascript">
+		const data = [[${air}]]
+		const tb1=document.getElementById("datalistOptions")
+		data.forEach((value)=>{
+			tb1.innerHTML=tb1.innerHTML+ `<option value="${value.name}">`
+		})
+		const tb=document.getElementById("datalistOptions2")
+		data.forEach((value)=>{
+			tb.innerHTML=tb.innerHTML+ `<option value="${value.name}">`
+		})
+
+	</script>
 	<script src="../static/assets/js/app.js"></script>
 </body>
 

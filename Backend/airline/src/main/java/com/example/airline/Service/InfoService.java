@@ -4,7 +4,6 @@ import com.example.airline.Entity.Clients;
 import com.example.airline.Entity.Ticket;
 import com.example.airline.Repository.ClientsRepo;
 import com.example.airline.Repository.TicketRepo;
-import com.example.airline.Repository.TokensRepo;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.json.JSONObject;
@@ -18,7 +17,7 @@ import static com.example.airline.Utils.StringUtil.maskString;
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
-public class InfoServise {
+public class InfoService {
     @Autowired
     private ClientsRepo clientsRepo;
     @Autowired
