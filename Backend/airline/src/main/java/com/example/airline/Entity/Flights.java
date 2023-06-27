@@ -24,8 +24,12 @@ public class Flights {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long id_v;
-    private Long id_p;
+    @OneToOne
+    @JoinColumn(name = "id_v",referencedColumnName = "id")
+    private Airport vil;
+    @OneToOne
+    @JoinColumn(name = "id_p",referencedColumnName = "id")
+    private Airport pril;
     private Integer kol_mest;
     private String bort;
     private LocalDate date_v;

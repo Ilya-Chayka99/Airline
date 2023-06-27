@@ -32,12 +32,13 @@ const TicketList=()=>{
                     {new Date(dateOutput)?.toLocaleString('default', {month: 'long'})}</h2>
                 <div className="list" key={uuv4()}>
                     {
-                        ticket.filter(x => x.id_v === selectOutput.id && x.id_p === selectInput.id && new Date(x.date_v).getDate() === new Date(dateOutput)?.getDate())
+                        ticket.filter(x => x.vil.name === selectOutput.name && x.pril.name === selectInput.name && new Date(x.date_v).getDate() === new Date(dateOutput)?.getDate())
                             .sort((x, y) => new Date(x.time_v).getHours() - new Date(y.time_v).getHours())
                             .map(x => (
                                 // eslint-disable-next-line react/jsx-key
                                 <CardT x={x}/>
                             ))
+
                     }
                 </div>
             </section>

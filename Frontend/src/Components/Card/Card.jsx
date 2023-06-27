@@ -20,7 +20,7 @@ const CardT = (props) => {
             return <p>{x.money + "₽"}</p>;
         }
         return <>
-            <p>{air.filter(y => y.id === x.id_v)[0]?.name} --> {air.filter(y => y.id === x.id_p)[0]?.name}</p>
+            <p>{x.vil.name} --> {x.pril.name}</p>
             <p>{new Date(x.date_v)?.getDate() + " " + new Date(x.date_v)?.toLocaleString('default', {month: 'long'})}</p>
         </>
 
