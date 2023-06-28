@@ -39,8 +39,7 @@ public class WebController {
 
     @GetMapping("main")
     public String index(Model model){
-        Integer[] A = {0, 1000, 10, 239};
-        model.addAttribute("user",A);
+        model.addAttribute("air",airportRepo.findAll());
         return "main";
     }
     @GetMapping("tableinfo")

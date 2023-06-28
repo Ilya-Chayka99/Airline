@@ -1,8 +1,10 @@
 package com.example.airline.Controllers.RestControllers;
 
+import com.example.airline.Entity.Airport;
 import com.example.airline.Entity.Flights;
 import com.example.airline.Entity.Ticket;
 import com.example.airline.Entity.Tokens;
+import com.example.airline.Repository.AirportRepo;
 import com.example.airline.Repository.FlightsRepo;
 import com.example.airline.Repository.TicketRepo;
 import com.example.airline.Repository.TokensRepo;
@@ -29,6 +31,8 @@ public class PlanController {
     private TokensRepo tokensRepo;
     @Autowired
     private TicketRepo ticketRepo;
+    @Autowired
+    private AirportRepo airportRepo;
 
     @Scheduled(fixedRate = 1800000)
     @Async
@@ -50,6 +54,9 @@ public class PlanController {
 
                 if (Objects.equals(flights1.getStatus(), "Регистрация")) {
                     flights1.setStatus("Улетел");
+                    Airport airport=flights1.getPril();
+                    airport.setPerelet(airport.getPerelet()+1);
+                    airportRepo.save(airport);
                     List<Ticket> tickets = ticketRepo.findByIdflight(flights1.getId());
                     for(Ticket t:tickets){
                         if(Objects.equals(t.getStatus(), "Зарегистрирован")){

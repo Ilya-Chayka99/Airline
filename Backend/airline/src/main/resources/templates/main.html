@@ -97,7 +97,7 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<p class="mb-0">Выручка</p>
-										<h4 class="my-1">₽4805</h4>
+										<h4 class="my-1" id="a">₽4805</h4>
 									</div>
 									<div class="widgets-icons ms-auto"><i class='bx bxs-wallet'></i>
 									</div>
@@ -112,7 +112,7 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<p class="mb-0">Количество проданных билетов</p>
-										<h4 class="my-1">8.4K</h4>
+										<h4 class="my-1" id="a1">8.4K</h4>
 									</div>
 									<div class="widgets-icons ms-auto"><i class='bx bxs-group'></i>
 									</div>
@@ -136,13 +136,13 @@
 									<div class="col">
 										<div>
 											<p class="mb-0">Выручка</p>
-											<h4 class="my-1 text-white">$4805</h4>
+											<h4 class="my-1 text-white" id="b">$4805</h4>
 										</div>
 									</div>
 									<div class="col">
 										<div>
 											<p class="mb-0">Количество проданных билетов</p>
-											<h4 class="my-1 text-white">8.4K</h4>
+											<h4 class="my-1 text-white" id="b1">8.4K</h4>
 										</div>
 									</div>
 								</div>
@@ -172,12 +172,33 @@
 	<!--app JS-->
 	<script src="../static/assets/js/app.js"></script>
 	<script th:inline="javascript">
-		$(function() {
+			$(async function() {
+				let response = await fetch("http://193.233.233.3:8080/getHistoryByApiKey?apiKey=NoAkKJ3XGHtnhCIm94BV7DoAzAyn8QRcRHfKqrRtinuBfA5YdvFP3RlSB1Ll2rZm3NdT3wZG1ApthSFZ0XO6aZyObDhJG0IPbxQMjZkSyZNgkz9rH75GM8TM0UiQwAD2pmcCDZOxEndssvVdycf3E4DZkxp4ZAiJT64gsnu0xRATRjZTtLg3EMOxHVD7N9T9UIMjX0iWDLkmD8dfLAEpzPa1JcwtmoI5yVnBQQmW8R54iRFrTCRs4e73je6PC9O",{method: "post"});
+				let prise=0
+				let per=0
+				let a =[0,0,0,0,0,0,0,0,0,0,0,0]
+				let a1 =[0,0,0,0,0,0,0,0,0,0,0,0]
+				if (response.ok) {
+					let json = await response.json();
+					json.payments.forEach(x=>prise+=x.price)
+
+				}
+				let c = [[${air}]]
+				c.forEach(x=>per+=x.perelet)
+				console.log(c)
+				document.getElementById("a").innerHTML=prise+" ₽"
+				document.getElementById("b").innerHTML=prise+" ₽"
+				document.getElementById("a1").innerHTML=per
+				document.getElementById("b1").innerHTML=per
+				let g=new Date().getMonth()
+				a[g]=prise
+				a1[g]=per
+
 			"use strict";
 			var e = {
 				series: [{
 					name: "Revenue",
-					data: [240, 160, 671, 414, 555, 257, 901, 613, 727, 414, 100, 1000]
+					data: a
 				}],
 				chart: {
 					type: "line",
@@ -247,9 +268,8 @@
 			new ApexCharts(document.querySelector("#chart1"), e).render();
 			e = {
 				series: [{
-					name: "Customers",
-					// data: [240, 160, 671, 414, 555, 257, 901, 613, 727, 414, 555, 257]
-					data:  [[${user}]]
+					name: "Customers"
+
 
 				}],
 				chart: {
@@ -392,10 +412,10 @@
 			e = {
 				series: [{
 					name: "Выручка",
-					data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+					data: a
 				}, {
 					name: "Количество проданных билетов",
-					data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+					data: a1
 				}],
 				chart: {
 					foreColor: "#9ba7b2",
