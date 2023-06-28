@@ -141,7 +141,7 @@ const RegisterR = () => {
                     <span className="spk">Поиск билета</span>
                     <div className="serch">
                         <Toast ref={toast} />
-                        <InputMask id="ssn" value={bil} mask="***-***-***-******" placeholder="Номер билета*"
+                        <InputMask id="ssn" value={bil} mask="***-***-***-**?***************" placeholder="Номер билета*"
                                    onChange={(e) => setBil(e.target.value)}></InputMask>
                         <InputMask value={serPas}
                                    onChange={(e) => setSerPas(e.target.value)}

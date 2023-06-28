@@ -56,7 +56,7 @@ const CardT = (props) => {
                   className="md:w-25rem"
                   key={x.id}
                   onClick={() => onByClick(x)}
-            >
+             >
                 <div className="info" key={uuv4()}>
                     <div className="stat" key={uuv4()}>
                         <BsAirplane/>

@@ -129,7 +129,7 @@ public class TicketService {
             String str = StringUtil.generateStringWithAlphabet(alf, 3)+"-"
                     + StringUtil.generateStringWithAlphabet(alf, 3)+"-"
                     + StringUtil.generateStringWithAlphabet(alf, 3)+"-"
-                    + StringUtil.generateStringWithAlphabet(alf, 6);
+                    + StringUtil.generateStringWithAlphabet(alf, 17);
             ticket.setSerial(str);
             ticketRepo.save(ticket);
             jsonObject.put("serial",str);

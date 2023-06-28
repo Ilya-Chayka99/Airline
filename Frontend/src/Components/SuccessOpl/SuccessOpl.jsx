@@ -22,7 +22,7 @@ const SuccessOpl = ()=>{
                     <div className="pos">
                         <span>Вылет в {new Date(ticket.time_v).getHours()+":"+new Date(ticket.time_v).getMinutes()}</span>
                         <span>Дата вылета {new Date(ticket.date_v).getDate()+" "+new Date(ticket.date_v).toLocaleString('default', {month: 'long'})}</span>
-                        <span>Номер билета: {serial.serial}</span>
+                        <span>Номер билета: {serial?.serial}</span>
                     </div>
                 </div>
             </section>}

@@ -34,7 +34,7 @@ const RegisterList = () => {
     useEffect(() => {
         if (g_v !== null || g_p !== null || date !== null) {
             let v = fl.filter(x => {
-                return (g_v ? (x.id_v === g_v.id) : true) && (g_p ? (x.id_p === g_p.id) : true) && (date ? (new Date(x.date_v).getDate() === new Date(date).getDate()) : true)
+                return (g_v ? (x.vil.id=== g_v.id) : true) && (g_p ? (x.pril.id === g_p.id) : true) && (date ? (new Date(x.date_v).getDate() === new Date(date).getDate()) : true)
             })
             setFlk(v)
         }

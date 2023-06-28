@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login", "/Airport",
                         "/instances", "/Flights",
                         "/ticket/**", "/info/**",
+                        "/wsUser",
                         "/assets/**", "/actuator/**","/auth/**","/static/**").permitAll()
                 .anyRequest().authenticated().and()
                 .cors().and()

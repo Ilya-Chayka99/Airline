@@ -22,7 +22,6 @@ const TicketList=()=>{
             setTicket(await ky('Flights', {prefixUrl: 'http://localhost:8080'}).json())
         }
         fetchData().then(r =>  r)
-
     },[])
 
     return(
@@ -32,7 +31,8 @@ const TicketList=()=>{
                     {new Date(dateOutput)?.toLocaleString('default', {month: 'long'})}</h2>
                 <div className="list" key={uuv4()}>
                     {
-                        ticket.filter(x => x.vil.name === selectOutput.name && x.pril.name === selectInput.name && new Date(x.date_v).getDate() === new Date(dateOutput)?.getDate())
+                        ticket.filter(x => x.vil.name === selectOutput.name && x.pril.name === selectInput.name && new Date(x.date_v).getDate() === new Date(dateOutput)?.getDate()
+                        && x.status!=="Улетел" && x.status!=="Отменен")
                             .sort((x, y) => new Date(x.time_v).getHours() - new Date(y.time_v).getHours())
                             .map(x => (
                                 // eslint-disable-next-line react/jsx-key
