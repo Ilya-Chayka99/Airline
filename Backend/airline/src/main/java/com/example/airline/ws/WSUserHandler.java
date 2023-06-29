@@ -33,7 +33,6 @@ public class WSUserHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         System.out.println(session +"    "+message.getPayload());
-        JSONObject jsonObject = new JSONObject();
         List<String> str = ticketService.seat(Long.valueOf(message.getPayload()));
         WSUserHandler.sendData(str.toString());
         super.handleTextMessage(session, message);
