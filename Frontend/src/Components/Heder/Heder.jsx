@@ -160,10 +160,10 @@ const Heder = () => {
                             <NavLink style={({isActive}) => ({color: isActive ? '#00FFFF' : 'white'})}
                                      to="/register-list" className="nav">Регистрация на рейс</NavLink>
                         </li>
-                        <li>
-                            <NavLink style={({isActive}) => ({color: isActive ? '#00FFFF' : 'white'})} to="/fi"
-                                     className="nav">О компании</NavLink>
-                        </li>
+                        {/*<li>*/}
+                        {/*    <NavLink style={({isActive}) => ({color: isActive ? '#00FFFF' : 'white'})} to="/fi"*/}
+                        {/*             className="nav">О компании</NavLink>*/}
+                        {/*</li>*/}
                         <li className="li-prof-auth">
                             <Menu model={items} popup ref={menu_profile}/>
                             {auth ? <Avatar label={<BsPersonFill/>} size="large" className="profile"

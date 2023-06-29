@@ -106,8 +106,7 @@ const Profile = () => {
                 const cookies = new Cookies();
                 cookies.remove('token')
                 dispatch(selectAuth(false))
-                if (location.pathname === '/profile' || location.pathname === '/admin')
-                    navigate('/')
+                navigate('/')
             }
         }
     ];

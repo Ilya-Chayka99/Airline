@@ -19,7 +19,7 @@ const TicketList=()=>{
     const [ticket,setTicket] = useState([]);
     useEffect(()=>{
         async function fetchData() {
-            setTicket(await ky('Flights', {prefixUrl: 'http://localhost:8080'}).json())
+            setTicket(await ky('Flights', {prefixUrl: 'http://193.233.233.3:8081'}).json())
         }
         fetchData().then(r =>  r)
     },[])

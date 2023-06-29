@@ -22,7 +22,7 @@ function App() {
     const dispatch = useDispatch();
     useEffect(()=>{
         async function fetchData() {
-            dispatch(setCity(await ky('Airport', {prefixUrl: 'http://localhost:8080'}).json()))
+            dispatch(setCity(await ky('Airport', {prefixUrl: 'http://193.233.233.3:8081'}).json()))
         }
         fetchData().then(r => r)
     },[])

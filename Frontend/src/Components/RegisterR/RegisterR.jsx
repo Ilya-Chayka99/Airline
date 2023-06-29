@@ -42,7 +42,7 @@ const RegisterR = () => {
         }
 
         fetchData1().then(r => r)
-        const ws = new WebSocket('ws://localhost:8080/wsUser');
+        const ws = new WebSocket('ws://193.233.233.3:8081/wsUser');
         ws.onopen = () => {
             console.log("Соединение установлено");
             _setWs(ws)
@@ -256,7 +256,7 @@ const RegisterR = () => {
                                 marginBottom: "40px",
                                 marginRight: "20px"
                             }}
-                            onClick={() => setVisible(ticketValid !== '' && ticketValid !== null)}>{seat === '' ? "Выбрать место" : seat}</button>
+                            onClick={() => setVisible(ticketValid !== '' && ticketValid !== null && (visibleB || value4 === 0))}>{seat === '' ? "Выбрать место" : seat}</button>
                         <button className={seat !== '' ? "form-btn" : "form-btn-close"} style={{marginBottom: "40px"}}
                                 onClick={() => {
                                     seat !== '' && reg()

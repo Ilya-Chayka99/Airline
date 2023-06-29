@@ -43,7 +43,7 @@ const CardT = (props) => {
         ${humanReadable.minutes < 10 ? "0" + humanReadable.minutes : humanReadable.minutes}`
     }
     const onByClick = (x) => {
-        if (!props.nav) {
+        if (!props.nav && x.kol_mest>0) {
             dispatch(selectByTicket(x))
             navigate("/byticket")
         } else {
