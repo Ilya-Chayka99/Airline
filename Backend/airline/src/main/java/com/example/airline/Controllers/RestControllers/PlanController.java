@@ -34,7 +34,7 @@ public class PlanController {
     @Autowired
     private AirportRepo airportRepo;
 
-    @Scheduled(fixedRate = 1800000)
+    @Scheduled(fixedRate = 60000)
     @Async
     public void refreshPricingParameters() {
         List<Flights> flights = flightsRepo.findAll();
@@ -61,11 +61,11 @@ public class PlanController {
                     for(Ticket t:tickets){
                         if(Objects.equals(t.getStatus(), "Зарегистрирован")){
                             t.setStatus("Вылетел");
-                            ticketRepo.save(t);
                         }else{
                             t.setStatus("Отмена");
-                            ticketRepo.save(t);
                         }
+                        t.setSerial("");
+                        ticketRepo.save(t);
                     }
                 }
             }
@@ -73,7 +73,7 @@ public class PlanController {
         }
     }
 
-    @Scheduled(fixedRate = 1800000)
+    @Scheduled(fixedRate = 60000)
     @Async
     public void refreshTokenParameters() {
         List<Tokens> tokens = tokensRepo.findAll();

@@ -7,8 +7,12 @@ import './RegisterR.css'
 import {BsArrowRightSquareFill} from "react-icons/bs";
 import lig from './img/business.png'
 import {Dialog} from "primereact/dialog";
+
 const CONFIG_APP = import.meta.env
-import { Toast } from 'primereact/toast';
+import {Toast} from 'primereact/toast';
+import {InputNumber} from "primereact/inputnumber";
+import {selectFormByInfo, selectNumberTicket} from "../slice/airSlise.jsx";
+import {useInterval} from "primereact/hooks";
 
 
 const RegisterR = () => {
@@ -25,11 +29,14 @@ const RegisterR = () => {
     const [visible, setVisible] = useState(false);
     const toast = useRef(null);
     const [_ws, _setWs] = useState();
-
-
+    const [value4, setValue4] = useState(0);
+    const [visibleB, setVisibleB] = useState(false);
+    const [seconds, setSeconds] = useState(360);
+    const [active, setActive] = useState(true);
 
     useEffect(() => {
         if (ticket == null) navigate("/")
+
         async function fetchData1() {
             setAir(await ky('Airport', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND}).json())
         }
@@ -66,28 +73,40 @@ const RegisterR = () => {
         event.preventDefault()
 
         async function fetchData() {
-            const req=await ky.post('ticket/search', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,json:{
-                "id_flight":ticket.id,
-                "bil":bil,
-                "serPas":serPas,
-                "nomPas":nomPas
-                }}).json()
+            const req = await ky.post('ticket/search', {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND, json: {
+                    "id_flight": ticket.id,
+                    "bil": bil,
+                    "serPas": serPas,
+                    "nomPas": nomPas
+                }
+            }).json()
             setTicketValid(req)
-            if(req===null || req===''){
-                    toast.current.show({severity:'error', summary: 'Ошибка', detail:'Билет не найден!! Проверьте введеную информацию.', life: 3000});
+            if (req === null || req === '') {
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Ошибка',
+                    detail: 'Билет не найден!! Проверьте введеную информацию.',
+                    life: 3000
+                });
             }
         }
 
         fetchData().then(r => r)
+
         async function fetchData1() {
             const searchParams = new URLSearchParams();
-            searchParams.set('id',ticket.id)
-            setSetClose(await ky.post(`ticket/seat`, {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:searchParams}).json())
+            searchParams.set('id', ticket.id)
+            setSetClose(await ky.post(`ticket/seat`, {
+                prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,
+                body: searchParams
+            }).json())
         }
+
         fetchData1().then(r => r)
     }
     useEffect(() => {
-        if(ticketValid!=null)
+        if (ticketValid != null)
             setInfo(ticketValid)
         else
             setInfo(null)
@@ -97,36 +116,94 @@ const RegisterR = () => {
         setSeat(id)
     }
     const veriv = (id) => {
-        if(setClose.includes(id)) return 1;
+        if (setClose.includes(id)) return 1;
         return 0;
     }
-    const reg =  () => {
+    const reg = () => {
+        if (setClose.includes(seat)) {
+            toast.current.show({
+                severity: 'error',
+                summary: 'Ошибка',
+                detail: 'Данное место уже занято, пожалуйста выберите другое',
+                life: 3000
+            });
+        } else {
+            // eslint-disable-next-line no-inner-declarations
+            async function fetchData() {
+                const formData = new FormData();
+                formData.append('phone', null)
+                formData.append('seat_number', seat)
+                formData.append('status', "Оформлен")
+                formData.append('serial', bil)
+                const req = await ky.post('ticket/setinfoticketseat', {
+                    prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND, body:
+                    formData
+                }).json().catch(err => console.log(err))
+                if (req.status === "err")
+                    toast.current.show({severity: 'error', summary: 'Ошибка', detail: req.massage, life: 3000});
+                if (req.status === "OK") {
+                    _ws.send(JSON.stringify(ticket.id))
+                    toast.current.show({
+                        severity: 'success',
+                        summary: '',
+                        detail: "Вы успешно зарегистрировалиись на рейс!",
+                        life: 3000
+                    });
+                    setTimeout(() => {
+                        navigate("/")
+                    }, 2000)
+                }
 
-
-        async function fetchData(){
-        const formData = new FormData();
-        formData.append('phone', null)
-        formData.append('seat_number', seat)
-        formData.append('status', "Оформлен")
-        formData.append('serial', bil)
-        const req= await ky.post('ticket/setinfoticketseat', {prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND,body:
-            formData
-        }).json().catch(err=>console.log(err))
-            if(req.status==="err")
-                toast.current.show({severity:'error', summary: 'Ошибка', detail:req.massage, life: 3000});
-            if(req.status==="OK"){
-                _ws.send(JSON.stringify(ticket.id))
-                toast.current.show({severity:'success', summary: '', detail:"Вы успешно зарегистрировалиись на рейс!", life: 3000});
-                setTimeout(()=>{
-                    navigate("/")
-                },2000)
             }
 
+            fetchData().then(r => r)
         }
-    fetchData().then(r => r)
-
     }
+    const usesSave=async ()=>{
 
+        async function fetchData1() {
+            const a= await ky(`createApiPaymentLink?livingTime=${(seconds-3)*1000}&priceType=1&price=${value4*1000}&apikey=NoAkKJ3XGHtnhCIm94BV7DoAzAyn8QRcRHfKqrRtinuBfA5YdvFP3RlSB1Ll2rZm3NdT3wZG1ApthSFZ0XO6aZyObDhJG0IPbxQMjZkSyZNgkz9rH75GM8TM0UiQwAD2pmcCDZOxEndssvVdycf3E4DZkxp4ZAiJT64gsnu0xRATRjZTtLg3EMOxHVD7N9T9UIMjX0iWDLkmD8dfLAEpzPa1JcwtmoI5yVnBQQmW8R54iRFrTCRs4e73je6PC9O`,
+                {prefixUrl: 'http://193.233.233.3:8080'
+                }).json().catch(err=>console.log(err))
+            window.open(a.link, '_blank', 'location=yes,scrollbars=yes,status=yes');
+            let info= setInterval(async () => {
+                const b= await ky.post(`getInfoByPaymentLink?linkKey=${a.linkKey}`,
+                    {prefixUrl: 'http://193.233.233.3:8080'
+                    }).json().catch(err=>console.log(err))
+                console.log(b)
+                if(b.paymentStatus==1){
+                    clearInterval(info);
+                    setVisibleB(true)
+                }
+                if(b.paymentStatus===-1){
+                    clearInterval(info);
+                    toast.current.show({
+                        severity: 'error',
+                        summary: 'Ошибка',
+                        detail: 'Вы не успели оплатить, пожалуйста попробуйте еще раз ',
+                        life: 3000
+                    });
+                }
+            }, 3000);
+        }
+        fetchData1().then(r => r)
+    }
+    useInterval(
+        () => {
+            setSeconds((prevSecond) => (prevSecond = prevSecond - 1));
+            if(seconds===1){
+                setActive(!active)
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Ошибка',
+                    detail: 'Вы не успели оплатить, пожалуйста попробуйте еще раз ',
+                    life: 3000
+                });
+            }
+        },
+        1000,
+        active
+    );
     return (
         <>
             {ticket && <section className="formBy">
@@ -140,8 +217,9 @@ const RegisterR = () => {
                     <img src={lig} alt=""/>
                     <span className="spk">Поиск билета</span>
                     <div className="serch">
-                        <Toast ref={toast} />
-                        <InputMask id="ssn" value={bil} mask="***-***-***-**?***************" placeholder="Номер билета*"
+                        <Toast ref={toast}/>
+                        <InputMask id="ssn" value={bil} mask="***-***-***-**?***************"
+                                   placeholder="Номер билета*"
                                    onChange={(e) => setBil(e.target.value)}></InputMask>
                         <InputMask value={serPas}
                                    onChange={(e) => setSerPas(e.target.value)}
@@ -155,7 +233,7 @@ const RegisterR = () => {
                         />
                         <button className="form-btn" type="submit" onClick={cub}>Найти</button>
                     </div>
-                    {info!=='' && info!==null && <div className="info-ticket-reg">
+                    {info !== '' && info !== null && <div className="info-ticket-reg">
                         <span><span>Имя:</span> {info.name}</span>
                         <span><span>Фамилия:</span> {info.sename}</span>
                         <span><span>Отчество:</span> {info.lastname}</span>
@@ -165,15 +243,25 @@ const RegisterR = () => {
                         <span><span>Дата покупки:</span> {new Date(info.date_registration).getDate() + " " +
                             new Date(info.date_registration)?.toLocaleString('default', {month: 'long'}) + " " +
                             timeFormat(info.date_registration)}</span>
+                        <InputNumber value={value4} onValueChange={(e) => setValue4(e.value)} min={0} max={5}/>
+                        {(value4 > 0 && !visibleB) && <button className={"form-btn"}
+                                                              onClick={() => {
+                                                                  usesSave().then(r => r)
+                                                              }}>Оплатить {value4 * 1000} Рублей</button>}
                     </div>}
-                    <div className={"seat"} >
-                        <button className={ticketValid!=='' && ticketValid !== null?"form-btn":"form-btn-close"} style={{
-                            marginBottom: "40px",
-                            marginRight: "20px"
-                        }} onClick={() => setVisible(ticketValid !== '' && ticketValid !== null)}>{seat === '' ? "Выбрать место" : seat}</button>
-                        <button className={seat !== ''?"form-btn":"form-btn-close"} style={{marginBottom: "40px"}} onClick={()=>{
-                            seat!=='' && reg()
-                        }}>Зарегистрировать</button>
+                    <div className={"seat"}>
+                        <button
+                            className={ticketValid !== '' && ticketValid !== null && (visibleB || value4 === 0) ? "form-btn" : "form-btn-close"}
+                            style={{
+                                marginBottom: "40px",
+                                marginRight: "20px"
+                            }}
+                            onClick={() => setVisible(ticketValid !== '' && ticketValid !== null)}>{seat === '' ? "Выбрать место" : seat}</button>
+                        <button className={seat !== '' ? "form-btn" : "form-btn-close"} style={{marginBottom: "40px"}}
+                                onClick={() => {
+                                    seat !== '' && reg()
+                                }}>Зарегистрировать
+                        </button>
                     </div>
                 </div>
                 <Dialog visible={visible} className="airplane" style={{

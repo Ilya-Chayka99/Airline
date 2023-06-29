@@ -111,7 +111,7 @@
 							<div class="card-body">
 								<div class="d-flex align-items-center">
 									<div>
-										<p class="mb-0">Количество проданных билетов</p>
+										<p class="mb-0">Количество вылетов</p>
 										<h4 class="my-1" id="a1">8.4K</h4>
 									</div>
 									<div class="widgets-icons ms-auto"><i class='bx bxs-group'></i>
@@ -141,7 +141,7 @@
 									</div>
 									<div class="col">
 										<div>
-											<p class="mb-0">Количество проданных билетов</p>
+											<p class="mb-0">Количество вылетов</p>
 											<h4 class="my-1 text-white" id="b1">8.4K</h4>
 										</div>
 									</div>
@@ -181,7 +181,6 @@
 				if (response.ok) {
 					let json = await response.json();
 					json.payments.forEach(x=>prise+=x.price)
-
 				}
 				let c = [[${air}]]
 				c.forEach(x=>per+=x.perelet)

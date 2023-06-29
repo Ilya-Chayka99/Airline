@@ -26,6 +26,7 @@ const ByTicketForm = () => {
     useEffect(() => {
         if (ticket == null) navigate("/")
         if (form) {
+            // eslint-disable-next-line no-inner-declarations
             async function fetchData() {
                 await ky.delete('ticket/delete', {
                     prefixUrl: CONFIG_APP.VITE_REACT_APP_URL_BACKEND, json:

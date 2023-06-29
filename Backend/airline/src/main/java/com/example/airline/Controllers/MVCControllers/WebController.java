@@ -63,6 +63,11 @@ public class WebController {
         model.addAttribute("flights",new FlightsForm());
         return "form-elements";
     }
+    @GetMapping("formG")
+    public String formG(Model model){
+        model.addAttribute("air",new Airport());
+        return "form-elements2";
+    }
     @GetMapping("close/{id}")
     public String close(@PathVariable Long id){
         Flights flights =flightsRepo.findById(id).get();
@@ -78,7 +83,6 @@ public class WebController {
 
     @PostMapping("createF")
     public String createF(@ModelAttribute("flights") FlightsForm flights) throws ParseException {
-        System.out.println(flights);
         LocalDate date = LocalDate.parse(flights.getDate_v());
         Flights flights1 = new Flights();
         flights1.setStatus("Продажа");
@@ -96,5 +100,13 @@ public class WebController {
         flights1.setPril(airportRepo.findAll().stream().filter(x-> Objects.equals(x.getName(), flights.getPril())).toList().get(0));
         flightsRepo.save(flights1);
         return "form-elements";
+    }
+    @PostMapping("createG")
+    public String createG(@ModelAttribute("air") Airport airport) throws ParseException {
+        Airport airport1 = new Airport();
+        airport1.setPerelet(0L);
+        airport1.setName(airport.getName());
+        airportRepo.save(airport1);
+        return "form-elements2";
     }
 }

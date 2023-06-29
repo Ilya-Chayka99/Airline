@@ -16,11 +16,16 @@
     /* Note: backdrop-filter has minimal browser support */
     margin-top: 40px;
     border-radius: 32px;
-    height: 679px;
+    height: auto;
     padding-top: 40px;
+    padding-bottom: 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.p-knob-text{
+    font-size: 13px;
+    color: white;
 }
 .oplata h2{
     color: white;

@@ -17,7 +17,11 @@ const CardT = (props) => {
     );
     const footer = (x) => {
         if (!props.nav) {
-            return <p>{x.money + "₽"}</p>;
+            return <>
+                <p>{x.money + "₽"}</p>
+                <p>{x.kol_mest+" мест осталось"}</p>
+            </>
+
         }
         return <>
             <p>{x.vil.name} --> {x.pril.name}</p>
